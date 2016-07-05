@@ -11,32 +11,38 @@
 |
 */
 
-Route::get('/', 'BasicController@newIndex');
-Route::get('/index', 'BasicController@newIndex');
-Route::get('home', 'BasicController@newIndex');
-Route::get('map-groups', 'BasicController@mapGroups');
-Route::get('alexissaenz', 'BasicController@indexAlexis');
-Route::get('retorno', 'BasicController@retorno');
-Route::get('new/index', 'BasicController@newInterfaz');
+Route::get('/', 'v2Controller@about');//v2
+Route::get('/inicio', 'v2Controller@about');//v2
+Route::get('alexissaenz', 'BasicController@indexAlexis');//No v2
+Route::get('retorno', 'BasicController@retorno');//No v2
+Route::get('new/index', 'BasicController@newInterfaz');//No v2
 //Route::get('new-index', 'BasicController@newIndex');
 
-Route::get('groups-register', 'BasicController@groupsRegister');
-Route::get('activities', 'BasicController@activities');
-Route::get('map-activities', 'BasicController@mapActivities');
+//Route::get('groups-register', 'BasicController@groupsRegister');
+//Route::get('activities', 'BasicController@activities');
+//Route::get('map-activities', 'BasicController@mapActivities');
 Route::get('terms-conditions', 'BasicController@termsConditions');
-Route::get('categories', 'BasicController@categories');
-Route::get('searchAjax/{cadena}', 'BasicController@searchAjax');
-Route::get('allGroupsAjax', 'BasicController@allGroupsAjax');
-Route::get('da', 'BasicController@daPage');
-Route::get('searchCategories/{cadena}', 'BasicController@searchCategories');
-Route::get('groupsxcat', 'BasicController@groupsxcat');
-
-/*Version 2.0 el Atlas*/
-Route::get('v2/groups-register', 'v2Controller@groupsRegister');
-Route::get('v2/activities-register', 'v2Controller@activitiesRegister');
+Route::get('categories', 'BasicController@categories');//Ajax
+Route::get('searchAjax/{cadena}', 'BasicController@searchAjax');//Ajax
+Route::get('allGroupsAjax', 'BasicController@allGroupsAjax');//Ajax
+Route::get('da', 'BasicController@daPage');//No v2
+Route::get('searchCategories/{cadena}', 'BasicController@searchCategories');//ajax
+Route::get('groupsxcat', 'BasicController@groupsxcat');//No v2
 
 
-Route::get('email_conf', 'email_confController@index');
+/*Versio 2.0 el Atlas*/
+Route::get('v2', 'v2Controller@about');//v2
+Route::get('v2/mapa-grupos', 'v2Controller@mapGroups');//v2
+Route::get('v2/mapa-acciones', 'v2Controller@mapAct');//v2
+Route::get('v2/preguntas-frecuentes', 'v2Controller@questions');//v2
+
+/*Routes ajax*/
+Route::get('v2/groups-register', 'v2Controller@groupsRegister');//v2 ajax
+Route::get('v2/activities-register', 'v2Controller@activitiesRegister');//v2 ajax
+//Route::get('v2', 'v2Controller@template');
+
+
+Route::get('email_conf', 'email_confController@index');//v2
 
 //Route::get('register', 'HomeController@index');
 //
@@ -47,36 +53,36 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
-Route::resource('grupos', 'GruposController');
+Route::resource('grupos', 'GruposController');//v2
 
 Route::get('active/{cod}', 'ActiveCountController@index');
 
 Route::group(['prefix' => 'user', 'middleware' => ['auth', 'email_confirmed']], function(){
-	Route::get('upload-activity', 'UserController@uploadActivity');
-	Route::post('upload-activity', 'UserController@uploadActivityPost');
-	Route::post('search-post', 'UserController@searchPost');
-	Route::get('upload-photos/{id}', 'UserController@uploadPhotos');
-	Route::post('upload-photos', 'UserController@uploadPhotosPost');
-	Route::get('my-publications', 'UserController@myPublications');
-	Route::get('reports/edit/{id}', 'UserController@editReport');
-	Route::post('reports/update', 'UserController@updateReport');
-	Route::get('reports/delete/{id}', 'UserController@deleteReport');
+	Route::get('upload-activity', 'UserController@uploadActivity');//v2
+	Route::post('upload-activity', 'UserController@uploadActivityPost');//v2
+	Route::post('search-post', 'UserController@searchPost');//No v2
+	Route::get('upload-photos/{id}', 'UserController@uploadPhotos');//v2
+	Route::post('upload-photos', 'UserController@uploadPhotosPost');//v2
+	Route::get('my-publications', 'UserController@myPublications');//v2
+	Route::get('reports/edit/{id}', 'UserController@editReport');//v2
+	Route::post('reports/update', 'UserController@updateReport');//v2
+	Route::get('reports/delete/{id}', 'UserController@deleteReport');//v2
 });
 
-	Route::get('publications', 'UserController@publications');
-	Route::get('publications/{id}', 'UserController@showPost');
-	Route::get('autor/{id}', 'UserController@showAutor');
+	Route::get('publications', 'UserController@publications');//v2
+	Route::get('publications/{id}', 'UserController@showPost');//v2
+	Route::get('autor/{id}', 'UserController@showAutor');//v2
 	Route::post('search', 'UserController@search');
 
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'email_confirmed', 'is_admin']], function(){
-	Route::get('reports', 'AdminController@reports');
-	Route::get('show-report/{id}', 'AdminController@showReport');
-	Route::get('reports/approve/{id}', 'AdminController@approveReport');
-	Route::get('reports/desapprove/{id}', 'AdminController@desapproveReport');
-	Route::get('reports/edit/{id}', 'AdminController@editReport');
-	Route::post('reports/update', 'AdminController@updateReport');
-	Route::get('reports/delete/{id}', 'AdminController@deleteReport');
+	Route::get('reports', 'AdminController@reports');//v2
+	Route::get('show-report/{id}', 'AdminController@showReport');//v2
+	Route::get('reports/approve/{id}', 'AdminController@approveReport');//v2
+	Route::get('reports/desapprove/{id}', 'AdminController@desapproveReport');//v2
+	Route::get('reports/edit/{id}', 'AdminController@editReport');//v2
+	Route::post('reports/update', 'AdminController@updateReport');//v2
+	Route::get('reports/delete/{id}', 'AdminController@deleteReport');//v2
 });
 
 Route::group(['prefix' => 'recorridos'], function(){

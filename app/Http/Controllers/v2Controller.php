@@ -42,6 +42,7 @@ class v2Controller extends Controller {
         $features = array();
 
         foreach($grupos as $grupo){
+            $descripcion = str_replace("\n", "<br>", $grupo->descripcion);
             $id = $grupo->email;
             $categorias = \DB::table('grupoxcategoria')
                 ->where('grupoxcategoria.grupo', $id)
@@ -60,7 +61,7 @@ class v2Controller extends Controller {
                         'foto' => $grupo->foto,
                         'ciudad' => $grupo->ciudad,
                         'num_int' => $grupo->num_int,
-                        'descripcion' => $grupo->descripcion,
+                        'descripcion' => $descripcion,
                         'categorias' => $categorias,
                     ),
                 ),
@@ -109,6 +110,9 @@ $id = $act->id;
         $allFeatures = array('type' => 'FeatureCollection', 'features' => $features);
         return json_encode($allFeatures, JSON_PRETTY_PRINT);
     }
-
+public function questions(){
+    $user = $this->datUser;
+    return view('v2/frecuent-questions', compact('user'));
+}
 
 }

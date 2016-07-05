@@ -26,9 +26,9 @@ class ActiveCountController extends Controller {
         ->where('confirmation_code', $cod)
         ->update(['confirmada' => 1, 'confirmation_code' => null]);
         if($result){
-            return view('activate_success', compact('user'));
+            return view('v2/activate_success', compact('user'));
         }else{
-            return view('activate_error', compact('user'));
+            return view('v2/activate_error', compact('user'));
         }
     }
 

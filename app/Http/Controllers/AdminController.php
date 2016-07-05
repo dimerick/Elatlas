@@ -37,7 +37,7 @@ class AdminController extends Controller {
 		$numApr = DB::table('actividad')
 			->where('confirmada', 1)
 			->count();
-		return view('admin/reports', compact('user','actividades', 'num', 'numApr'));
+		return view('v2/admin/reports', compact('user','actividades', 'num', 'numApr'));
 	}
 
 	public function showReport($id){
@@ -56,7 +56,7 @@ class AdminController extends Controller {
 			->get();
 
 
-		return view('admin/show-report', compact('user', 'reporte', 'fotos'));
+		return view('v2/admin/show-report', compact('user', 'reporte', 'fotos'));
 
 }
 	public function approveReport($id){
@@ -83,7 +83,7 @@ class AdminController extends Controller {
 		if($estado == 1){
 			$actividad->confirmada = 0;
 			$actividad->save();
-			return redirect("/admin/show-report/$id")->with('message', "El reporte $titulo se has desaprobado exitosamente");
+			return redirect("/admin/show-report/$id")->with('message', "El reporte $titulo se ha desaprobado exitosamente");
 		}else{
 			return redirect("/admin/show-report/$id")->with('message', 'Este reporte ya fue desaprobado');
 		}
@@ -115,7 +115,7 @@ class AdminController extends Controller {
 		$user = $this->datUser;
 		$actividad = Actividad::find($id);
 		$datos = $actividad['attributes'];
-		return view('admin/edit-report', compact('datos', 'user'));
+		return view('v2/admin/edit-report', compact('datos', 'user'));
 	}
 
 	public function updateReport(EditReportRequest $request){

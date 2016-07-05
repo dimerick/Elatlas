@@ -43,7 +43,7 @@
 
   <!-- Template CSS -->
   <link href="{{ asset('assets/new/css/style.css') }}" rel="stylesheet">
-  <link href="{{ asset('assets/new/css/jquery-ui.min.css') }}" rel="stylesheet">
+
   @yield('css')
 
   <!--Font Awesone-->

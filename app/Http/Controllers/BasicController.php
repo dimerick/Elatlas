@@ -78,7 +78,7 @@ class BasicController extends Controller {
     }
     public function termsConditions(){
         $user = $this->datUser;
-        return view('terms-conditions', compact('user'));
+        return view('v2/terms-conditions', compact('user'));
     }
 
     public function daPage(){

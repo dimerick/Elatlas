@@ -10,7 +10,7 @@ class email_confController extends Controller {
     {
         $nombre = "Erick Saenz";
         $cod_act = "232emkwldkfokwpor2i4302irjwfijwrk2i0i";
-        return view('email_conf', compact('nombre', 'cod_act'));
+        return view('v2/email_conf', compact('nombre', 'cod_act'));
 
         //
     }

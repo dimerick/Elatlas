@@ -49,7 +49,7 @@ class GruposController extends Controller {
 			->orderBy('id', 'ASC')
 			->get();
 		$user = $this->datUser;
-		return view('register', compact('user', 'categorias'));
+		return view('v2/register', compact('user', 'categorias'));
 	}
 
 	public function generarRutaPerfil($nombre){
@@ -77,6 +77,8 @@ class GruposController extends Controller {
 
 		\Storage::disk('local')->put($ruta, \File::get($file));
 
+//		$descripcion = nl2br($request->descripcion);
+		$descripcion = $request->descripcion;
 		$cuenta = Cuenta::create([
 			'nombre' => $request->nombre,
 			'tipo' => 'user',
@@ -85,7 +87,7 @@ class GruposController extends Controller {
 			'latitud' => $request->latitud,
 			'longitud' => $request->longitud,
 			'num_int' => $request->num_int,
-			'descripcion' => $request->descripcion,
+			'descripcion' => $descripcion,
 			'foto' => $ruta,
 			'password' => bcrypt($request->password),
 			'confirmada' => 0,
@@ -113,7 +115,7 @@ class GruposController extends Controller {
 				$message->to($email, $nombre)->from('atlasdelafecto@gmail.com', 'El atlas')->subject('Codigo de activación!');
 			});
 			$user = $this->datUser;
-		return view('conf_registro', compact('email', 'user'));
+		return view('v2/conf_registro', compact('email', 'user'));
 //		return $redirect->route('grupos.index');
 		}else{
 			return("Se produjo un error al crear el registro");
@@ -145,6 +147,9 @@ class GruposController extends Controller {
 			->orderBy('id', 'ASC')
 			->get();
 		$user = $this->datUser;
+//		$descripcion = str_replace("<br>", "\n", $user['descripcion']);
+		$descripcion = $user['descripcion'];
+//		$descripcion = preg_replace("<br/>","\n", $user['descripcion']);
 		$email = $user["email"];
 		$marcadas = \DB::table('grupoxcategoria')
 			->where('grupo', $email)
@@ -171,7 +176,7 @@ $estado = true;
 			$i++;
 		}
 
-		return view('user/edit', compact('user', 'items'));
+		return view('v2/edit', compact('user', 'items', 'descripcion'));
 
 	}
 
@@ -199,13 +204,16 @@ $estado = true;
 		$cuenta = Cuenta::find($user['email']);
 		$activo = $request->fotoAct;
 
+//		$descripcion = nl2br($request->descripcion);
+//		$descripcion = str_replace("\n", "<br>", $request->descripcion);
+		$descripcion = $request->descripcion;
 		$cuenta->nombre = $request->nombre;
 		$cuenta->email = $request->email;
 		$cuenta->ciudad = $request->ciudad;
 		$cuenta->latitud = $request->latitud;
 		$cuenta->longitud = $request->longitud;
 		$cuenta->num_int = $request->num_int;
-		$cuenta->descripcion = $request->descripcion;
+		$cuenta->descripcion = $descripcion;
 
 		if(!$activo){
 			$file = $request->file('foto');

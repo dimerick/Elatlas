@@ -40,14 +40,14 @@ class UserController extends Controller {
 
 	public function uploadActivity(){
 		$user = $this->datUser;
-		return view('user/upload_activity', compact('user'));
+		return view('v2/upload_activity', compact('user'));
 
 	}
 
 
 	public function uploadActivityPost(Request $request){
-
-
+		
+		$check = $request->get('check-load-fotos');
 		$user = $this->datUser;
 		$email = $user['email'];
 
@@ -72,10 +72,10 @@ class UserController extends Controller {
 			'descripcion' => $descripcion,
 			'latitud' => $latitud,
 			'longitud' => $longitud,
-			'confirmada' => 0
+			'confirmada' => 1
 		]);
 
-		$path = 'files/actividades/';
+		$path = public_path().'/files/actividades/';
 
 		$files = $request->file('file');
 
@@ -112,8 +112,10 @@ class UserController extends Controller {
 			}
 
 		}
+if($check == "on"){
+	return redirect("/user/my-publications")->with('message', "Se registro el reporte $titulo exitosamente");
+}
 
-		return redirect("/user/upload-activity")->with('message', "Se registro el reporte $titulo exitosamente");
 
 	}
 
@@ -123,9 +125,9 @@ class UserController extends Controller {
 		$datos = $actividad['attributes'];
 
 		if($user['email'] == $datos['grupo']){
-			return view('user/upload-photos', compact('user', 'datos'));
+			return view('v2/upload-photos', compact('user', 'datos'));
 		}else{
-			return redirect("/user/publications/$id")->with('message', "No tienes permiso para editar este reporte");
+			return redirect("/v2/publications/$id")->with('message', "No tienes permiso para editar este reporte");
 		}
 
 	}
@@ -136,7 +138,7 @@ class UserController extends Controller {
 		$actividad = Actividad::find($id);
 		$datos = $actividad['attributes'];
 		$titulo = $datos['titulo'];
-		$path = 'files/actividades/';
+		$path = public_path().'/files/actividades/';
 		$files = $request->file('file');
 
 		$search = array("á", "é", "í", "ó", "ú", "Á", "É", "Í", "Ó", "Ú", " ");
@@ -182,7 +184,7 @@ class UserController extends Controller {
 			->orderBy('actividad', 'DESC')
 			->get();
 
-		return view('user/publications', compact('user', 'actividades', 'fotos', 'cuentas'));
+		return view('v2/publications', compact('user', 'actividades', 'fotos', 'cuentas'));
 	}
 
 	public function showPost($id){
@@ -192,6 +194,8 @@ class UserController extends Controller {
 			->select('cuenta.nombre', 'cuenta.email', 'actividad.titulo', 'actividad.fecha', 'actividad.created_at', 'actividad.descripcion', 'actividad.latitud', 'actividad.longitud', 'actividad.confirmada')
 			->where('actividad.id', $id)
 			->get();
+//		dd($datos);
+		$descripcion = nl2br(htmlentities($datos[0]->descripcion));
 	$fotos = DB::table('foto')
 			->select('url')
 			->where('actividad', $id)
@@ -199,12 +203,12 @@ class UserController extends Controller {
 
 		if($datos[0]->confirmada == 0){
 			if($user['email'] == $datos[0]->email){
-				return view('user/show-post', compact('user', 'datos', 'fotos'));
+				return view('v2/show-post', compact('user', 'descripcion', 'datos', 'fotos'));
 			}else{
 				return redirect()->back()->with('message', "No tienes permiso para visualizar este reporte");
 			}
 		}else{
-			return view('user/show-post', compact('user', 'datos', 'fotos'));
+			return view('v2/show-post', compact('user', 'descripcion', 'datos', 'fotos'));
 		}
 
 	}
@@ -215,6 +219,13 @@ class UserController extends Controller {
 			->select('nombre', 'email', 'ciudad', 'latitud', 'longitud', 'num_int', 'descripcion', 'foto')
 			->where('email', $id)
 			->get();
+//		dd($cuenta[0]->descripcion);
+//		dd($cuenta[0]->descripcion);
+//		$descripcion = str_replace("\n", "<br>", $cuenta[0]->descripcion);
+//		$descripcion = nl2br($cuenta[0]->descripcion);
+		$descripcion = nl2br(htmlentities($cuenta[0]->descripcion));
+//		$descripcion = htmlentities($cuenta[0]->descripcion);
+//		dd($descripcion);
 		$actividades = DB::table('actividad')
 			->where('grupo', $id)
 			->where('confirmada', 1)
@@ -234,7 +245,7 @@ class UserController extends Controller {
 			->join('categoria', 'grupoxcategoria.categoria', '=', 'categoria.id')
 			->select('categoria.nombre')
 			->get();
-		return view('user/show-autor', compact('user', 'cuenta', 'actividades', 'categorias', 'fotos'));
+		return view('v2/show-autor', compact('user', 'descripcion', 'cuenta', 'actividades', 'categorias', 'fotos'));
 	}
 
 	public function search(Request $request){
@@ -265,15 +276,12 @@ class UserController extends Controller {
 			->select('foto.actividad', 'foto.url')
 			->get();
 
-		return view('user/search', compact('cadena', 'user', 'grupos', 'actividades', 'fotos'));
+		return view('v2/search', compact('cadena', 'user', 'grupos', 'actividades', 'fotos'));
 	}
 
 	public function searchPost(Request $request){
 		$cadena = $request->post;
 		$user = $this->datUser;
-
-
-
 		return view('user/result-post', compact('cadena', 'user', 'actividades', 'fotos'));
 
 	}
@@ -287,7 +295,7 @@ class UserController extends Controller {
 			->orderBy('id', 'DESC')
 			->get();
 		$num = count($actividades);
-		return view('user/my-publications', compact('user', 'num', 'actividades'));
+		return view('v2/my-publications', compact('user', 'num', 'actividades'));
 
 	}
 
@@ -315,7 +323,7 @@ class UserController extends Controller {
 		$user = $this->datUser;
 		$actividad = Actividad::find($id);
 		$datos = $actividad['attributes'];
-		return view('user/edit-report', compact('datos', 'user'));
+		return view('v2/edit-report', compact('datos', 'user'));
 	}
 
 	public function updateReport(EditReportRequest $request){
@@ -330,6 +338,6 @@ class UserController extends Controller {
 		$actividad->longitud = $request['longitud'];
 		$actividad->save();
 
-		return redirect("/user/my-publications")->with('message', "Se actualizo el reporte $titulo exitosamente");
+		return redirect("/user/my-publications")->with('message', "Se actualizo el reporte exitosamente");
 	}
 }

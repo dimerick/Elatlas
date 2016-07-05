@@ -22,11 +22,11 @@
                 <div class="panel-heading"> <h4><i class="fa fa-user"> </i> {{$cuenta[0]->nombre}}</h4></div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <a href="/files/{{$cuenta[0]->foto}}" data-lightbox="{{$cuenta[0]->nombre}}" data-title="{{$cuenta[0]->nombre}}"><img src="/files/{{$cuenta[0]->foto}}" width="40%" class="thumbnail photo-profile"></a>
 
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <p class="descrip"><i class="fa fa-envelope-o"></i> {{$cuenta[0]->email}}</p>
                             <p><i class="fa fa-globe">  </i> {{$cuenta[0]->ciudad}} </p>
                             <p>    <i class="fa fa-group"> </i> {{$cuenta[0]->num_int}}</p>

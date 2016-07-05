@@ -1,17 +1,12 @@
-@extends('new/template')
+@extends('v2/template')
 
 @section('title')
 	Contraseña
 @endsection
 
-@section('options-user')
-	@include('partials/options-user')
-@endsection
-
-
 @section('content')
 
-			<div class="panel panel-primary">
+			<div class="panel panel-default">
 				<div class="panel-heading">Resetear Contraseña</div>
 				<div class="panel-body">
 					@if (session('status'))

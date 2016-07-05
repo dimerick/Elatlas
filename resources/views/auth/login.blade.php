@@ -1,4 +1,4 @@
-@extends('new/template')
+@extends('v2/template')
 
 @section('title')
 	Login
@@ -10,8 +10,7 @@
 
 
 @section('content')
-
-			<div class="panel panel-primary">
+			<div class="panel panel-default">
 				<div class="panel-heading">Login</div>
 				<div class="panel-body">
 					@if (count($errors) > 0)

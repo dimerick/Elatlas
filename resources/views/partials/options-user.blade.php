@@ -1,16 +1,9 @@
 @if($user == null)
         <!--Invitado-->
 <span class="pull-right">
-<a href="/auth/login" class="btn btn-danger btn-xs options-user" role="button"><span><i class="fa fa-sign-in"></i> Iniciar Sesion</span></a>
-<a href="/grupos/create" class="btn btn-danger btn-xs options-user" role="button"><span class="fa fa-globe" aria-hidden="true"> Registrarte</span></a>
+<a href="/auth/login" class="btn btn-danger btn-sm options-user" role="button"><span><i class="fa fa-sign-in"></i> Iniciar Sesion</span></a>
+<a href="/grupos/create" class="btn btn-danger btn-sm options-user" role="button"><span class="fa fa-globe" aria-hidden="true"> Registrarse</span></a>
 </span>
-{{--<button type="button" href="/auth/login" class="btn btn-danger btn-xs options-user" aria-label="Left Align">--}}
-    {{--<span><i class="fa fa-sign-in"></i> Iniciar Sesion</span>--}}
-{{--</button>--}}
-{{--<button type="button" href="/grupos/create" class="btn btn-danger btn-xs options-user" aria-label="Left Align">--}}
-    {{--<span class="fa fa-globe" aria-hidden="true"> Registrarme</span>--}}
-{{--</button>--}}
-<!--Invitado-->
 @elseif($user['tipo'] == 'user')
         <!--User-->
 <ul class="nav navbar-nav pull-right">

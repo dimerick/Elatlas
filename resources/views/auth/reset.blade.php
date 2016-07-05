@@ -1,11 +1,7 @@
-@extends('new/template')
+@extends('v2/template')
 
 @section('title')
 	Resetear
-@endsection
-
-@section('options-user')
-	@include('partials/options-user')
 @endsection
 
 @section('content')

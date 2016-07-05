@@ -8,51 +8,52 @@ $("#dz-message").css('display', 'none')
   $("#dz-message").removeAttr('style');
  }
 });
-function getPosition(position){
- var lat = position.coords.latitude;
- var long = position.coords.longitude;
- $('#latitud').val(lat);
- $('#longitud').val(long);
- initialize(lat, long);
-}
-function error(msg){
- initialize(6.25304, -75.56457);
-alert("Ha ocurrido un error al obtener la ubicacion");
-}
- function initialize(lat, long) {
- var mapCanvas = document.getElementById('map');
-  var mapOptions = {
-   center: new google.maps.LatLng(lat, long),
-   zoom: 15,
-   mapTypeId: google.maps.MapTypeId.ROADMAP
+
+
+ function inicializarMap(latitud, longitud){
+  if(latitud != null && longitud != null){
+   $('#latitud').val(latitud);
+   $('#longitud').val(longitud);
+  }else{
+   latitud = 6.25304;
+   longitud = -75.56457;
   }
-  var map = new google.maps.Map(mapCanvas, mapOptions);
-  infoWindow = new google.maps.InfoWindow();
-
-
-  var nombre, infoGrupo, posGrupo;
-  var iconMarker = '/assets/images/icon-atlasAnt.png';
-
-
-  var posGrupo = new google.maps.LatLng(lat, long);
-
-  var marker = new google.maps.Marker({
-   position: posGrupo,
-   draggable: true,
-   icon: iconMarker,
-   map: map,
+  var myIcon = L.icon({
+   iconUrl: '/assets/v2/images/icon_retorno.png',
+   iconSize: [40, 40],
+   iconAnchor: [22, 10]
   });
-  google.maps.event.addListener(marker, 'dragend', function(){
 
-   var lat, long, markerPos;
-   markerPos = this.getPosition();
-   lat = markerPos.lat();
-   long = markerPos.lng();
+  var map = L.map('register-map', {
+   center: [latitud, longitud],
+   zoom: 12
+  });
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+   attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+
+  var punto = L.marker([latitud, longitud], {
+   icon: myIcon,
+   draggable: true
+  }).addTo(map);
+
+  punto.on('dragend', function(e) {
+   var latLng = punto.getLatLng();
+   var lat = latLng.lat;
+   var long = latLng.lng;
    $('#latitud').val(lat);
    $('#longitud').val(long);
   });
  }
 
+function getPosition(position){
+ var lat = position.coords.latitude;
+ var long = position.coords.longitude;
+inicializarMap(lat, long);
+}
+function error(msg){
+alert("Ha ocurrido un error al obtener la ubicacion");
+ inicializarMap(null, null);
+}
 
  if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(getPosition, error);
@@ -60,8 +61,10 @@ alert("Ha ocurrido un error al obtener la ubicacion");
   error('not supported');
  }
 
-
  function comprobarCampos(){
+  if($('#latitud').val() == "" && $('#longitud').val() == ""){
+   alert('Arrastra el icono en el mapa para establecer tu ubicacion');
+  }
 var valido=true;
 var campos = $("[required]").each(function(index){
 if($(this).val() == ""){
