@@ -4,6 +4,16 @@
 </div>
 
 <div class="form-group">
+    <label>Nombre representante*</label>
+    {!! Form::text('nom_repre', null, ['class'=> 'form-control', 'required' => 'required', 'id' => 'nom-repre']) !!}
+</div>
+
+<div class="form-group">
+    <label>Telefono*</label>
+    {!! Form::text('telefono', null, ['class'=> 'form-control', 'required' => 'required', 'id' => 'telefono']) !!}
+</div>
+
+<div class="form-group">
     <label>{{ trans('validation.attributes.email') }}*</label>
     {!! Form::email('email', '', ['class'=> 'form-control', 'required' => 'required', 'id' => 'email']) !!}
 </div>
@@ -22,19 +32,34 @@
 
 <hr>
 <div class="form-group">
+    <div class="row">
+        <div class="col-sm-12">
+            <label id="cate">Seleccione la categoria principal del grupo*</label>
+            <select class="form-control" name="cat_prin" id="cat-prin"required>
+                <option value=""></option>
+                @foreach($categorias as $categoria)
+                    <option value="{{$categoria->id}}">{{ $categoria->nombre}}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="form-group" id="form-cat-sec">
 <div class="row">
 <div class="col-sm-12">
-    <label id="cate">Marque las categorias a las que pertenece el grupo*</label>
-    </br></br>
-</div>
+    <label id="cate">Marque las categorias secundarias con las que se identifica el grupo</label>
+    <div id="cont-cat-sec">
+        <ul>
     @foreach($categorias as $categoria)
-            <div class="col-sm-6">
 
-                {!! Form::checkbox($categoria->id, $categoria->id, false, ['class' => 'check-category'])!!}
-                <label>{{ $categoria->nombre}}</label>
+           <li id = "cat-sec-{{$categoria->id}}"> {!! Form::checkbox($categoria->id, $categoria->id, false, ['class' => 'check-category'])!!}
+            {{ $categoria->nombre}}</li>
+        @endforeach
+        </ul>
+    </div>
+</div>
 
-        </div>
-    @endforeach
             </div>
 </div>
 
@@ -45,7 +70,7 @@
 
 <div class="form-group">
     <label>{{ trans('validation.attributes.descript') }}*</label>
-    {!! Form::textarea('descripcion', null, ['cols' => '70', 'rows' => '7', 'class' => 'form-control', 'required' => 'required', 'id' => 'descripcion']) !!}
+    {!! Form::textarea('descripcion', null, ['rows' => '7', 'class' => 'form-control', 'required' => 'required', 'id' => 'descripcion']) !!}
 </div>
 
 <div class="form-group">

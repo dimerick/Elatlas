@@ -40,6 +40,8 @@ class EditGrupoRequest extends Request {
 //		dd($rule);
 		return [
 			'nombre' => 'required',
+			'nom_repre' => 'required',
+			'telefono' => 'required',
 			'email' => "required|unique:cuenta,email,$email,email",
 			'ciudad' => 'required',
 			'latitud' => 'required',

@@ -10,6 +10,10 @@ $(document).ready(function() {
     });
     //End goto top
 
+    // var es_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+    // if(es_chrome){
+    //     alert("Este sitio implementa ciertas funciones que no estan disponibles en tu navegador actual, te sugerimos utilizar Internet explorer o Mozilla firefox.");
+    // }
 
     $("#show-info-map").click(function () {
         if($("#info-map").hasClass('desplegado')){
@@ -24,6 +28,9 @@ $(document).ready(function() {
         event.preventDefault();
         $("#info-map").css('padding', '0px');
         $("#info-map").removeClass('desplegado');
+        $("#info-map").removeClass('bounceInDown');
+        $("#info-map").addClass('bounceInLeft');
+        
     });
 
     $("#a-li-1").click(function () {

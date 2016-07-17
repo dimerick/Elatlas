@@ -102,12 +102,12 @@
     <!--Div search-->
 
     <!--Info map-->
-    <div class="row">
-        <div class="col-sm-12">
-            <div id="info-map" class="plegable">
-            </div>
-        </div>
-    </div>
+    {{--<div class="row">--}}
+        {{--<div class="col-sm-12">--}}
+            {{--<div id="info-map" class="plegable">--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
     <!--Info map-->
 
     <div class="row">
@@ -176,12 +176,12 @@
                                 <li class="item" id="li-activities"><a href="/v2/mapa-acciones">Actividades</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <h3><span><i class="fa fa-tasks"></i> Galeria</span></h3>
+                        {{--<li>--}}
+                            {{--<h3><span><i class="fa fa-tasks"></i> Galeria</span></h3>--}}
                             {{--<ul>--}}
                                 {{--<li class="item"><a href="/">Item 1</a></li>--}}
                             {{--</ul>--}}
-                        </li>
+                        {{--</li>--}}
                         {{--<li>--}}
                             {{--<h3><span><i class="fa fa-question"></i> Preguntas Frecuentes</span></h3>--}}
                             {{--<ul>--}}

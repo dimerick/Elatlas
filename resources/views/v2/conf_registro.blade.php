@@ -11,7 +11,8 @@
 @section('content')
                     @include('partials.messages')
                     <div class="alert alert-info">
-                        <p>Para terminar el proceso de registro hemos enviado un link de confirmacion al correo {{$email}}</p>
+                        <p>Para terminar el proceso de registro hemos enviado un link de confirmacion al correo:</p>
+                        <p><b>{{$email}}</b></p>
                     </div>
 
 @endsection

@@ -108,7 +108,6 @@
                 this.on("addedfile", function(file) {
 
                 });
-
                 this.on("complete", function(file) {
                     myDropzone.removeFile(file);
                 });

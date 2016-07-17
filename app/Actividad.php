@@ -9,5 +9,5 @@ class Actividad extends Model
     protected $table = 'actividad';
     public $timestamps = true;
     public $primaryKey = 'id';
-    protected $fillable = ['grupo', 'titulo', 'fecha', 'descripcion', 'latitud', 'longitud', 'confirmada'];
+    protected $fillable = ['grupo', 'titulo', 'fecha', 'descripcion', 'categoria', 'latitud', 'longitud', 'confirmada'];
 }

@@ -5,7 +5,7 @@
 @endsection
 
 @section('css')
-
+    <link href="{{ asset('assets/v2/css/Control.FullScreen.css') }}" rel="stylesheet">
 @endsection
 
 @section('options-user')
@@ -28,7 +28,7 @@
                             <div class="form-group">
                                 <span>Al hacer clic en "Registrarte" Aceptas los <a href="/terms-conditions" target="_blank">Terminos y Condiciones del servicio</a></span>
                             </div>
-                    {!! Form::submit(trans('validation.attributes.submit'),['class' => 'btn btn-primary', 'id' => 'submit']) !!}
+                    {!! Form::submit(trans('validation.attributes.submit'),['class' => 'btn btn-primary btn-block', 'id' => 'submit']) !!}
                     </div>
 
                     {!! Form::close() !!}
@@ -39,4 +39,5 @@
 @endsection
 @section('scripts')
        <script src="{{ asset('assets/v2/js/registerUser.js') }}"></script>
+       <script src="{{ asset('assets/v2/js/Control.FullScreen.js') }}"></script>
 @endsection

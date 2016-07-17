@@ -8,14 +8,18 @@ $('document').ready(function(){
    longitud = -75.56457;
   }
   var myIcon = L.icon({
-   iconUrl: '/assets/v2/images/icon_retorno.png',
+   iconUrl: '/assets/v2/images/categories/icon-otra.svg',
    iconSize: [40, 40],
    iconAnchor: [22, 10]
   });
 
   var map = L.map('register-map', {
    center: [latitud, longitud],
-   zoom: 12
+   zoom: 12,
+   fullscreenControl: true,
+   fullscreenControlOptions: {
+    position: 'topleft'
+   }
   });
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);

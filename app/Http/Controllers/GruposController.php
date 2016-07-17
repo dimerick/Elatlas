@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use \Eventviva\ImageResize;
 use App\Cuenta;
 use App\Http\Requests\CreateGrupoRequest;
 use App\Http\Controllers\Controller;
@@ -71,17 +72,34 @@ class GruposController extends Controller {
 		$dateMod = str_replace($search1, $replace1, $date);
 		$search = array("á", "é", "í", "ó", "ú", "Á", "É", "Í", "Ó", "Ú", " ");
 		$replace = array("a", "e", "i", "o", "u", "a", "e", "i", "o", "u", "-");
-		$nomPerfilMod = str_replace($search, $replace, $request->nombre);
+		$nomMod = str_replace($search, $replace, $request->nombre);
 
-		$ruta = "fotos_perfil/".$dateMod."_".$nomPerfilMod.".jpg";
+		$num = 1;
+		$path = public_path().'/files/fotos_perfil/';
+		$originalName = $file->getClientOriginalName();
+		$arrayName = explode('.', $originalName);
+		$ext = end($arrayName);
+		$ruta = $nomMod."_".$num.".".$ext;
+		$rutaComp = $path.$ruta;
 
-		\Storage::disk('local')->put($ruta, \File::get($file));
+		while(file_exists($rutaComp)){
+			$num++;
+			$ruta = $nomMod."_".$num.".".$ext;
+			$rutaComp = $path.$ruta;
+		}
+		$file->move($path, $ruta);
+		if(file_exists($rutaComp)) {
+			$image = new ImageResize($rutaComp);
+			$image->resizeToWidth(1200);
+			$image->save($rutaComp);
+		}
 
-//		$descripcion = nl2br($request->descripcion);
 		$descripcion = $request->descripcion;
 		$cuenta = Cuenta::create([
 			'nombre' => $request->nombre,
 			'tipo' => 'user',
+			'representante' => $request->nom_repre,
+			'telefono' => $request->telefono,
 			'email' => $request->email,
 			'ciudad' => $request->ciudad,
 			'latitud' => $request->latitud,
@@ -96,6 +114,9 @@ class GruposController extends Controller {
 		$email = $request->email;
 		$nombre = $request->nombre;
 		if($cuenta){
+			\DB::table('grupoxcategoria')->insert(
+				['grupo' => $email, 'categoria' => $request->cat_prin, 'tipo' => 1]//Inserto la categoria principal del grupo
+			);
 			$categorias = \DB::table('categoria')
 				->orderBy('id', 'ASC')
 				->get();
@@ -147,13 +168,23 @@ class GruposController extends Controller {
 			->orderBy('id', 'ASC')
 			->get();
 		$user = $this->datUser;
-//		$descripcion = str_replace("<br>", "\n", $user['descripcion']);
 		$descripcion = $user['descripcion'];
-//		$descripcion = preg_replace("<br/>","\n", $user['descripcion']);
 		$email = $user["email"];
 		$marcadas = \DB::table('grupoxcategoria')
 			->where('grupo', $email)
 			->get();
+
+		//selecciono categoria principal
+		$catPrin = \DB::table('grupoxcategoria')
+			->where('grupo', $email)
+			->where('tipo', 1)
+			->select('categoria')
+			->get();
+		if($catPrin!=null){
+			$idCatPrin = $catPrin[0]->categoria;
+		}else{
+			$idCatPrin = null;
+		}
 
 		$i= 0;
 		$estado = false;
@@ -176,7 +207,7 @@ $estado = true;
 			$i++;
 		}
 
-		return view('v2/edit', compact('user', 'items', 'descripcion'));
+		return view('v2/edit', compact('user', 'items', 'categorias', 'idCatPrin', 'descripcion'));
 
 	}
 
@@ -189,7 +220,17 @@ $estado = true;
 	public function update(EditGrupoRequest $request, Redirector $redirect)
 	{
 		$user = $this->datUser;
-		\DB::table('grupoxcategoria')->where('grupo',$user['email'])->delete();
+		\DB::table('grupoxcategoria')
+			->where('grupo',$user['email'])
+			->where('tipo',2)
+			->delete();
+		$categorias = \DB::table('categoria')
+			->orderBy('id', 'ASC')
+			->get();
+		\DB::table('grupoxcategoria')
+			->where('grupo',$user['email'])
+			->where('tipo',1)
+			->update(['categoria' => $request->cat_prin]);//actualizo la categoria principal del grupo
 		$categorias = \DB::table('categoria')
 			->orderBy('id', 'ASC')
 			->get();
@@ -208,6 +249,8 @@ $estado = true;
 //		$descripcion = str_replace("\n", "<br>", $request->descripcion);
 		$descripcion = $request->descripcion;
 		$cuenta->nombre = $request->nombre;
+		$cuenta->representante = $request->nom_repre;
+		$cuenta->telefono = $request->telefono;
 		$cuenta->email = $request->email;
 		$cuenta->ciudad = $request->ciudad;
 		$cuenta->latitud = $request->latitud;

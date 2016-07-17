@@ -1,17 +1,28 @@
 $(document).ready(function(){
 
-    var myIcon = L.icon({
-        iconUrl: '/assets/v2/images/icon_retorno.png',
-        iconSize: [40, 40],
-        iconAnchor: [22, 10]
-    });
 
     function eachActivity(feature, layer){
         console.log("imprimiendo feature");
+        var urlIcon = feature.geometry.properties.icon;
+        var myIcon = L.icon({
+            iconUrl: '/assets/v2/images/categories/'+urlIcon,
+            iconSize: [40, 40],
+            iconAnchor: [22, 10]
+        });
+        feature.geometry.properties.fecha
         layer.setIcon(myIcon);
 
         var fotos = feature.geometry.properties.fotos;
-        var url = fotos[0].url;
+        var url = "";
+        console.log(fotos);
+        if(fotos != null) {
+            if (fotos.length > 0) {
+                var url = fotos[0].url;
+            }
+        }
+
+
+
         var fechaReg = feature.geometry.properties.fecha;
         var date = fechaReg.split("-");
         var fechaText = date[2]+' de ';
@@ -49,29 +60,35 @@ $(document).ready(function(){
 
 
 
-        var content = '<a href="#" id="ocult-info-map"> <i class="fa fa-long-arrow-right"></i> Ocultar</a>' +
+        var content = '<div id="info-map" class="plegable animated bounceInDown"><a href="#" id="ocult-info-map"> <i class="fa fa-close"></i></a>' +
             '<hr>' +
-            '<a href="/files/actividades/'+url+'" data-lightbox="'+feature.geometry.properties.titulo+'" data-title="'+feature.geometry.properties.titulo.toUpperCase()+'"><img src="/files/actividades/'+url+'"  width="60%" class="img-responsive main-image-activity img-rounded"></a>' +
-        '<h3>'+feature.geometry.properties.titulo.toUpperCase()+'</h3>' +
+            '<a href="/files/actividades/'+url+'" data-lightbox="'+feature.geometry.properties.titulo+'" data-title="'+feature.geometry.properties.titulo.toUpperCase()+'"><img src="/files/actividades/'+url+'"  width="80%" class="img-responsive main-image-activity img-rounded"></a>' +
+        '<a href="/publications/'+feature.geometry.properties.id+'"><h3>'+feature.geometry.properties.titulo.toUpperCase()+'</h3></a>' +
         '<p id="autor-activity"><em>Publicado por: </em><a target="_blank" href="/autor/'+feature.geometry.properties.email+'"><b>'+feature.geometry.properties.autor+'</b></a> el '+fechaText+'</p>' +
         '<div id="description-activity">' +
         '<p id="description-activity">'+feature.geometry.properties.descripcion+'</p>' +
         '</div>' +
         '<div class="row">' +
-        '<div class="col-sm-12">' +
+        '<div class="col-sm-12"><hr>' +
         '<div id="cont-images-activity">';
 
         var fotos = feature.geometry.properties.fotos;
+        var max = 2;
         for(var i=1; i < fotos.length; i++){
-            content += '<a href="/files/actividades/'+fotos[i].url+'" data-lightbox="'+feature.geometry.properties.titulo+'" data-title="'+feature.geometry.properties.titulo+'"><img src="/files/actividades/'+fotos[i].url+'" width="20%" class="img-responsive image-activity img-thumbnail"></a>';
+            if(i <= max){
+                content += '<a href="/files/actividades/'+fotos[i].url+'" data-lightbox="'+feature.geometry.properties.titulo+'" data-title="'+feature.geometry.properties.titulo+'"><img src="/files/actividades/'+fotos[i].url+'" width="50%" class="img-responsive image-activity img-thumbnail"></a>';
+            }
+
         }
 
         content += '</div>' +
         '</div>' +
-        '</div>';
+        '</div></div>';
 
         layer.on('click', function () {
-            $("#info-map").html(content);
+
+            $("#info-map").remove();
+            $("#v2-map").append(content);
             $("#info-map").css('padding', '20px');
             $("#info-map").addClass('desplegado');
         })
@@ -102,7 +119,11 @@ $(document).ready(function(){
     });
     var map = L.map('v2-map', {
         center: [4.96871620165794, -73.93611395955086],
-        zoom: 5
+        zoom: 5,
+        fullscreenControl: true,
+        fullscreenControlOptions: {
+            position: 'topleft'
+        }
     });
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);

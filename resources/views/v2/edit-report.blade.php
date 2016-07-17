@@ -33,6 +33,26 @@
                             <label for="fecha">Fecha *</label>
                             <input type="date" value="{{$datos['fecha']}}" class="form-control" id="fecha" name="fecha" required>
                         </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label>Categoria*</label>
+                                    <select class="form-control" name="categoria" id="categoria" required>
+                                        <option value=""></option>
+                                        @foreach($categorias as $categoria)
+                                            @if($datos['categoria'] == $categoria->id)
+                                                <option value="{{$categoria->id}}" selected>{{$categoria->nombre}}</option>
+                                            @else
+                                                <option value="{{$categoria->id}}">{{$categoria->nombre}}</option>
+                                            @endif
+
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label for="descripcion">Descripcion *</label>
                             <textarea required cols="75" rows="7" id="descripcion" name="descripcion" class="form-control" required>{{$datos['descripcion']}}</textarea>
@@ -75,7 +95,7 @@
                     longitud = -75.56457;
                 }
                 var myIcon = L.icon({
-                    iconUrl: '/assets/v2/images/icon_retorno.png',
+                    iconUrl: '/assets/v2/images/categories/icon-otra.svg',
                     iconSize: [40, 40],
                     iconAnchor: [22, 10]
                 });

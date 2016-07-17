@@ -26,6 +26,16 @@
                             </div>
 
                             <div class="form-group">
+                                <label>Nombre representante*</label>
+                                {!! Form::text('nom_repre', $user['representante'], ['class'=> 'form-control', 'required' => 'required', 'id' => 'nom-repre']) !!}
+                            </div>
+
+                            <div class="form-group">
+                                <label>Telefono*</label>
+                                {!! Form::text('telefono', $user['telefono'], ['class'=> 'form-control', 'required' => 'required', 'id' => 'telefono']) !!}
+                            </div>
+
+                            <div class="form-group">
                                 <label>{{ trans('validation.attributes.email') }}*</label>
                                 {!! Form::email('email', $user['email'], ['class'=> 'form-control']) !!}
                             </div>
@@ -43,17 +53,39 @@
                             <input type="hidden" id="longitud" name="longitud" value="{{$user['longitud']}}">
 
                             <hr>
+
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <label id="cate">Marque las categorias a las que pertenece el grupo</label>
-                                        </br></br>
+                                        <label id="cate">Seleccione la categoria principal del grupo*</label>
+                                        <select class="form-control" name="cat_prin" id="cat-prin"required>
+                                            @foreach($categorias as $categoria)
+                                                @if($categoria->id == $idCatPrin)
+                                                    <option value="{{$categoria->id}}" selected>{{ $categoria->nombre}}</option>
+                                                @else
+                                                    <option value="{{$categoria->id}}">{{ $categoria->nombre}}</option>
+                                                @endif
+
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label id="cate">Marque las categorias secundarias con las que se identifica el grupo</label>
+                                        <div id="cont-cat-sec">
+                                            <ul>
                                         @foreach($items as $item)
-                                            <div class="col-sm-6">
-                                                {!! Form::checkbox($item["id"], $item["id"], $item["checked"])!!}
-                                                <label>{{ $item["nombre"]}}</label>
-                                            </div>
+                                                    <li id="cat-sec-{{$item["id"]}}">
+                                                        {!! Form::checkbox($item["id"], $item["id"], $item["checked"], ['class' => 'check-category'])!!}
+                                                {{ $item["nombre"]}}</li>
+
                                         @endforeach
+                                            </ul>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -96,6 +128,7 @@
 
 @endsection
 @section('scripts')
+    <script src="{{ asset('assets/v2/js/editUser.js') }}"></script>
     <script>
         $('document').ready(function(){
             function inicializarMap(latitud, longitud){
@@ -107,7 +140,7 @@
                     longitud = -75.56457;
                 }
                 var myIcon = L.icon({
-                    iconUrl: '/assets/v2/images/icon_retorno.png',
+                    iconUrl: '/assets/v2/images/categories/icon-otra.svg',
                     iconSize: [40, 40],
                     iconAnchor: [22, 10]
                 });
@@ -141,16 +174,10 @@
 
             submitBtn.addEventListener("click", function(e){
                 if($('#latitud').val() == "" && $('#longitud').val() == ""){
+                    valido = false;
                     alert('Arrastra el icono en el mapa para establecer tu ubicacion');
                 }
-                var valido=true;
-                var campos = $("[required]").each(function(index){
-                    if($(this).val() == ""){
-                        valido = false;
 
-                    }
-
-                });
                 if(!valido){
                     e.preventDefault();
                     e.stopPropagation();

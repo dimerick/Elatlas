@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers;
 
-
+use \Eventviva\ImageResize;
 use App\Actividad;
 use App\Foto;
 use App\Http\Controllers\Controller;
@@ -40,7 +40,11 @@ class UserController extends Controller {
 
 	public function uploadActivity(){
 		$user = $this->datUser;
-		return view('v2/upload_activity', compact('user'));
+		$categorias = \DB::table('categoria')
+			->select('id', 'nombre')
+			->orderBy('id', 'ASC')
+			->get();
+		return view('v2/upload_activity', compact('user', 'categorias'));
 
 	}
 
@@ -50,12 +54,12 @@ class UserController extends Controller {
 		$check = $request->get('check-load-fotos');
 		$user = $this->datUser;
 		$email = $user['email'];
-
 		$titulo = $request->get('titulo');
 		$fecha = $request->get('fecha');
 		$descripcion = $request->get('descripcion');
 		$latitud = $request->get('latitud');
 		$longitud = $request->get('longitud');
+		$categoria = $request->get('categoria');
 
 
 		$search = array("á", "é", "í", "ó", "ú", "Á", "É", "Í", "Ó", "Ú", " ");
@@ -70,39 +74,44 @@ class UserController extends Controller {
 			'titulo' => $titulo,
 			'fecha' => $fecha,
 			'descripcion' => $descripcion,
+			'categoria' => $categoria,
 			'latitud' => $latitud,
 			'longitud' => $longitud,
 			'confirmada' => 1
 		]);
 
 		$path = public_path().'/files/actividades/';
-
 		$files = $request->file('file');
 
 
 		if($result->id > 0){
 			$exito = true;
 			$insertedId = $result->id;
-			$num = 1;
 			if($files != null){
+				$num = 1;
 				foreach($files as $file){
-//				$date = Carbon::now();
-//				$date = $date->toDateTimeString();
-//				$dateMod = str_replace($search1, $replace1, $date);
-
-					$ruta = $nomMod."_".$num.".jpg";
+					$originalName = $file->getClientOriginalName();
+					$arrayName = explode('.', $originalName);
+					$ext = end($arrayName);
+					$ruta = $nomMod."_".$num.".".$ext;
 					$rutaComp = $path.$ruta;
 
 					while(file_exists($rutaComp)){
 						$num++;
-						$ruta = $nomMod."_".$num.".jpg";
+						$ruta = $nomMod."_".$num.".".$ext;
 						$rutaComp = $path.$ruta;
 					}
-
-//			$ruta = $file->getClientOriginalName();
 					$file->move($path, $ruta);
 
 					if(file_exists($rutaComp)){
+						$image = new ImageResize($rutaComp);
+						$image->resizeToWidth(1200);
+						$image->save($rutaComp);
+
+//						$image->quality_jpg = 100;
+//						$image->resize(800, 600);
+//						$image->save($rutaComp);
+
 						$result2 = Foto::create([
 							'actividad' => $insertedId,
 							'url' => $ruta
@@ -138,6 +147,8 @@ if($check == "on"){
 		$actividad = Actividad::find($id);
 		$datos = $actividad['attributes'];
 		$titulo = $datos['titulo'];
+
+
 		$path = public_path().'/files/actividades/';
 		$files = $request->file('file');
 
@@ -145,23 +156,32 @@ if($check == "on"){
 		$replace = array("a", "e", "i", "o", "u", "a", "e", "i", "o", "u", "-");
 		$search1 = array(":", " ");
 		$replace1 = array("-", "_");
+
 		$nomMod = str_replace($search, $replace, $titulo);
 		$num = 1;
+
 		if($files != null){
 			foreach($files as $file){
-
-				$ruta = $nomMod."_".$num.".jpg";
+				$originalName = $file->getClientOriginalName();
+				$arrayName = explode('.', $originalName);
+				$ext = end($arrayName);
+				
+				$ruta = $nomMod."_".$num.".".$ext;
 				$rutaComp = $path.$ruta;
 
 				while(file_exists($rutaComp)){
 					$num++;
-					$ruta = $nomMod."_".$num.".jpg";
+					$ruta = $nomMod."_".$num.".".$ext;
 					$rutaComp = $path.$ruta;
 				}
 
 				$file->move($path, $ruta);
 
 				if(file_exists($rutaComp)){
+					$image = new ImageResize($rutaComp);
+					$image->resizeToWidth(1200);
+					$image->save($rutaComp);
+
 					$result2 = Foto::create([
 						'actividad' => $id,
 						'url' => $ruta
@@ -177,13 +197,34 @@ if($check == "on"){
 			->select('nombre', 'email')
 			->get();
 		$actividades = DB::table('actividad')
-			->where('confirmada', 1)
-			->orderBy('id', 'DESC')
+			->join('categoria', 'actividad.categoria', '=', 'categoria.id')
+			->select('actividad.id', 'actividad.grupo', 'actividad.titulo', 'actividad.fecha', 'actividad.created_at', 'actividad.descripcion', 'actividad.latitud', 'actividad.longitud', 'actividad.confirmada', 'categoria.nombre as nomCat', 'categoria.icon')
+			->where('actividad.confirmada', 1)
+			->orderBy('actividad.id', 'DESC')
 			->get();
 		$fotos = DB::table('foto')
 			->orderBy('actividad', 'DESC')
 			->get();
+		$newFotos = array();
+		$actAnt = null;
+		$num = 0;
+		foreach ($fotos as $foto){
+if($actAnt == null){
+	$actAnt = $foto->actividad;
+}
+			if($actAnt == $foto->actividad){
+				if($num < 2){
+					$newFotos[] = $foto;
+				}
 
+			}else{
+				$num=0;
+				$actAnt = $foto->actividad;
+				$newFotos[] = $foto;
+			}
+			$num++;
+		}
+		$fotos = $newFotos;
 		return view('v2/publications', compact('user', 'actividades', 'fotos', 'cuentas'));
 	}
 
@@ -191,7 +232,8 @@ if($check == "on"){
 	$user = $this->datUser;
 	$datos = DB::table('cuenta')
 			->join('actividad', 'cuenta.email', '=', 'actividad.grupo')
-			->select('cuenta.nombre', 'cuenta.email', 'actividad.titulo', 'actividad.fecha', 'actividad.created_at', 'actividad.descripcion', 'actividad.latitud', 'actividad.longitud', 'actividad.confirmada')
+			->join('categoria', 'actividad.categoria', '=', 'categoria.id')
+			->select('cuenta.nombre', 'cuenta.email', 'actividad.titulo', 'actividad.fecha', 'actividad.created_at', 'actividad.descripcion', 'actividad.latitud', 'actividad.longitud', 'actividad.confirmada', 'categoria.nombre as nomCat', 'categoria.icon')
 			->where('actividad.id', $id)
 			->get();
 //		dd($datos);
@@ -227,23 +269,25 @@ if($check == "on"){
 //		$descripcion = htmlentities($cuenta[0]->descripcion);
 //		dd($descripcion);
 		$actividades = DB::table('actividad')
-			->where('grupo', $id)
+			->join('categoria', 'actividad.categoria', '=', 'categoria.id')
+			->where('actividad.grupo', $id)
 			->where('confirmada', 1)
-			->select('id', 'titulo', 'fecha', 'descripcion', 'latitud', 'longitud')
+			->select('actividad.id', 'titulo', 'fecha', 'descripcion', 'latitud', 'longitud', 'categoria.nombre as nomCat', 'categoria.icon')
 			->orderBy('id', 'DESC')
 			->get();
 		$fotos = DB::table('cuenta')
 			->where('cuenta.email', $id)
+			->where('actividad.confirmada', 1)
 			->join('actividad', 'cuenta.email', '=', 'actividad.grupo')
 			->join('foto', 'actividad.id', '=', 'foto.actividad')
-			->where('actividad.confirmada', 1)
 			->select('foto.actividad', 'foto.url')
 			->orderBy('foto.actividad', 'DESC')
 			->get();
 		$categorias = DB::table('grupoxcategoria')
 			->where('grupoxcategoria.grupo', $id)
 			->join('categoria', 'grupoxcategoria.categoria', '=', 'categoria.id')
-			->select('categoria.nombre')
+			->select('categoria.nombre', 'categoria.icon')
+			->orderBy('grupoxcategoria.tipo', 'ASC')
 			->get();
 		return view('v2/show-autor', compact('user', 'descripcion', 'cuenta', 'actividades', 'categorias', 'fotos'));
 	}
@@ -322,8 +366,11 @@ if($check == "on"){
 	public function editReport($id){
 		$user = $this->datUser;
 		$actividad = Actividad::find($id);
+		$categorias = \DB::table('categoria')
+			->orderBy('id', 'ASC')
+			->get();
 		$datos = $actividad['attributes'];
-		return view('v2/edit-report', compact('datos', 'user'));
+		return view('v2/edit-report', compact('datos', 'categorias', 'user'));
 	}
 
 	public function updateReport(EditReportRequest $request){
@@ -333,6 +380,7 @@ if($check == "on"){
 		$titulo = $actividad->titulo;
 		$actividad->titulo = $request['titulo'];
 		$actividad->fecha = $request['fecha'];
+		$actividad->categoria = $request['categoria'];
 		$actividad->descripcion = $request['descripcion'];
 		$actividad->latitud = $request['latitud'];
 		$actividad->longitud = $request['longitud'];

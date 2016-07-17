@@ -22,7 +22,7 @@
         @foreach($actividades as $actividad)
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a href="/publications/{{$actividad->id}}" target="_blank"> <h4><i class="fa fa-flag"></i> {{strtoupper($actividad->titulo)}}</h4></a>
+                    <a href="/publications/{{$actividad->id}}" target="_blank"> <h4><img class="icon-cat" src="/assets/v2/images/categories/{{$actividad->icon}}" title="{{$actividad->nomCat}}"> {{strtoupper($actividad->titulo)}}</h4></a>
 
                 </div>
                 <div class="panel-body">
@@ -46,13 +46,11 @@
                     <hr>
                     <div class="row">
                         <div class="col-sm-12">
-
                             @foreach($fotos as $foto)
-                                @if($foto->actividad == $actividad->id)
-                                    <a href="/files/actividades/{{$foto->url}}" data-lightbox="{{$actividad->titulo}}" data-title="{{$actividad->titulo}}"><img src="/files/actividades/{{$foto->url}}" width="20%" class="pull-left thumbnail"></a>
-                                @endif
+                                    @if($foto->actividad == $actividad->id)
+                                        <a href="/files/actividades/{{$foto->url}}" data-lightbox="{{$actividad->titulo}}" data-title="{{$actividad->titulo}}"><img src="/files/actividades/{{$foto->url}}" width="50%" class="pull-left thumbnail thum-img-activity"></a>
+                                    @endif
                             @endforeach
-
                         </div>
                     </div>
 

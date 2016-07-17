@@ -121,7 +121,7 @@ class BasicController extends Controller {
                 $grupos = \DB::table('cuenta')
                     ->join('grupoxcategoria', 'cuenta.email', '=', 'grupoxcategoria.grupo')
                     ->join('categoria', 'grupoxcategoria.categoria', '=', 'categoria.id')
-                    ->select('cuenta.nombre', 'cuenta.email', 'cuenta.ciudad', 'cuenta.num_int', 'cuenta.descripcion', 'cuenta.foto', 'categoria.nombre as nomcat')
+                    ->select('cuenta.nombre', 'cuenta.email', 'cuenta.ciudad', 'cuenta.num_int', 'cuenta.descripcion', 'cuenta.foto', 'categoria.nombre as nomcat', 'categoria.icon')
                     ->where('grupoxcategoria.categoria', $cat)
                     ->where('cuenta.confirmada', 1)
                     ->where('cuenta.tipo', 'user')

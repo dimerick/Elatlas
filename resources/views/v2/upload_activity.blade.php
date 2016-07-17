@@ -5,6 +5,7 @@
 @endsection
 
 @section('css')
+    <link href="{{ asset('assets/v2/css/Control.FullScreen.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/dropzone.css') }}" rel="stylesheet">
 @endsection
 
@@ -13,6 +14,7 @@
 @endsection
 
 @section('content')
+    <div id="error"></div>
 
     <div class="panel panel-default">
 
@@ -27,6 +29,20 @@
             <div class="form-group">
                 <label for="fecha">Fecha *</label>
                 <input type="date" class="form-control" id="fecha" name="fecha" required>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>Categoria*</label>
+                        <select class="form-control" name="categoria" id="categoria" required>
+                            <option value=""></option>
+                            @foreach($categorias as $categoria)
+                                <option value="{{$categoria->id}}">{{ $categoria->nombre}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
@@ -66,6 +82,7 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('assets/v2/js/Control.FullScreen.js') }}"></script>
     <script src="{{ asset('assets/v2/js/registrarActividad.js') }}"></script>
     <script src="{{ asset('assets/v2/js/dropzone.js') }}"></script>
     <script>
@@ -112,7 +129,7 @@
                         if(!state){
                             var numImages = 0;
                             $(".dz-preview").each(function(index){
-numImages++;
+                            numImages++;
                             });
                             e.preventDefault();
                             e.stopPropagation();
@@ -143,8 +160,11 @@ numImages++;
 
                 });
                 this.on("errormultiple", function(files, response){
+                    console.log("Mostrando error");
+                    $("#error").html(response);
+                    console.log(response);
                 alert("hubo un error al enviar los archivos");
-                    window.location.href = '/user/my-publications';
+//                    window.location.href = '/user/my-publications';
                 });
 //                this.on("success",
 //                        myDropzone.processQueue.bind(myDropzone)

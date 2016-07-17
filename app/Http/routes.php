@@ -36,9 +36,15 @@ Route::get('v2/mapa-grupos', 'v2Controller@mapGroups');//v2
 Route::get('v2/mapa-acciones', 'v2Controller@mapAct');//v2
 Route::get('v2/preguntas-frecuentes', 'v2Controller@questions');//v2
 
+
+//voy a reescalar las imagenes de perfil y actividades
+Route::get('v2/reescalar-perfil', 'v2Controller@reescalarPerfil');//v2
+Route::get('v2/reescalar-acti', 'v2Controller@reescalarActi');//v2
+
 /*Routes ajax*/
 Route::get('v2/groups-register', 'v2Controller@groupsRegister');//v2 ajax
 Route::get('v2/activities-register', 'v2Controller@activitiesRegister');//v2 ajax
+Route::get('v2/activities-group-register/{id}', 'v2Controller@activitiesGroupRegister');//v2 ajax
 //Route::get('v2', 'v2Controller@template');
 
 
@@ -58,6 +64,7 @@ Route::resource('grupos', 'GruposController');//v2
 Route::get('active/{cod}', 'ActiveCountController@index');
 
 Route::group(['prefix' => 'user', 'middleware' => ['auth', 'email_confirmed']], function(){
+	Route::get('publications', 'UserController@publications');//v2
 	Route::get('upload-activity', 'UserController@uploadActivity');//v2
 	Route::post('upload-activity', 'UserController@uploadActivityPost');//v2
 	Route::post('search-post', 'UserController@searchPost');//No v2
@@ -73,6 +80,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'email_confirmed']], 
 	Route::get('publications/{id}', 'UserController@showPost');//v2
 	Route::get('autor/{id}', 'UserController@showAutor');//v2
 	Route::post('search', 'UserController@search');
+
+
 
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'email_confirmed', 'is_admin']], function(){

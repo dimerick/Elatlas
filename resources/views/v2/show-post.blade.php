@@ -5,7 +5,7 @@
 @endsection
 
 @section('css')
-    <link href="{{ asset('assets/css/lightbox.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/v2/css/Control.FullScreen.css') }}" rel="stylesheet">
 @endsection
 
 @section('options-user')
@@ -15,7 +15,8 @@
 
 @section('content')
         <div class="panel panel-default">
-                <div class="panel-heading"><h4><i class="fa fa-flag"></i> {{strtoupper($datos[0]->titulo)}}</h4></div>
+            <input type="hidden" id="icon-activity" value="/assets/v2/images/categories/{{$datos[0]->icon}}">
+                <div class="panel-heading"><h4><img class="icon-cat" src="/assets/v2/images/categories/{{$datos[0]->icon}}" title="{{$datos[0]->nomCat}}">{{strtoupper($datos[0]->titulo)}}</h4></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-12">
@@ -63,8 +64,10 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('assets/v2/js/Control.FullScreen.js') }}"></script>
     <script>
         $('document').ready(function(){
+            var urlIcon = $("#icon-activity").val();
             var latitud, longitud, titulo;
             latitud = $('#latitud').attr("value");
             longitud = $('#longitud').attr("value");
@@ -72,14 +75,18 @@
 
 
             var myIcon = L.icon({
-                iconUrl: '/assets/v2/images/icon_retorno.png',
+                iconUrl: urlIcon,
                 iconSize: [40, 40],
                 iconAnchor: [22, 10]
             });
 
             var map = L.map('activity-map', {
                 center: [latitud, longitud],
-                zoom: 12
+                zoom: 12,
+                fullscreenControl: true,
+                fullscreenControlOptions: {
+                    position: 'topleft'
+                }
             });
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);

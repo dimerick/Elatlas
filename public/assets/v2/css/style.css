@@ -147,28 +147,34 @@ ul.lz-menu li .active>a{
 }
 #info-map{
     position: absolute;
-    right: 15px;
-    z-index: 100;
+    right: 0px;
+    z-index: 99999;
     background: rgba(255,255,255,0.9);
-    -webkit-box-shadow: 4px 3px 12px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 4px 3px 12px 0px rgba(0,0,0,0.75);
-    box-shadow: 4px 3px 12px 0px rgba(0,0,0,0.75);
-
+    width: 40%;
+    height: 100%;
+    overflow-y: scroll;
+    font-size: 1.1em;
+    /*-webkit-box-shadow: 4px 3px 12px 0px rgba(0,0,0,0.75);*/
+    /*-moz-box-shadow: 4px 3px 12px 0px rgba(0,0,0,0.75);*/
+    /*box-shadow: 4px 3px 12px 0px rgba(0,0,0,0.75);*/
 }
+
 .plegable{
-    max-width:0px;
-    overflow:hidden;
-    -webkit-transition: max-width 500ms ease-in-out;
-    -moz-transition: max-width 500ms ease-in-out;
-    -o-transition: max-width 500ms ease-in-out;
-    transition: max-width 500ms ease-in-out;
+    /*max-width:0px;*/
+    /*overflow:hidden;*/
+    /*-webkit-transition: max-width 500ms ease-in-out;*/
+    /*-moz-transition: max-width 500ms ease-in-out;*/
+    /*-o-transition: max-width 500ms ease-in-out;*/
+    /*transition: max-width 500ms ease-in-out;*/
+    display: none;
 }
 .plegable.desplegado{
-    max-width:500px;
-    -webkit-transition: max-width 500ms ease-in-out;
-    -moz-transition: max-width 500ms ease-in-out;
-    -o-transition: max-width 500ms ease-in-out;
-    transition: max-width 500ms ease-in-out;
+    /*max-width:100%;*/
+    /*-webkit-transition: max-width 500ms ease-in-out;*/
+    /*-moz-transition: max-width 500ms ease-in-out;*/
+    /*-o-transition: max-width 500ms ease-in-out;*/
+    /*transition: max-width 500ms ease-in-out;*/
+    display: block;
 }
 #ocult-info-map{
     margin-left: 5px;
@@ -228,8 +234,10 @@ ul.lz-menu li .active>a{
 #description-group>p{
     margin-top: 10px;
     margin-bottom: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
 }
-#info-map>h3{
+#info-map>a>h3{
     text-align: center;
 }
 #info-map>a>img{
@@ -263,8 +271,6 @@ ul.lz-menu li .active>a{
     margin: 0 auto;
 }
 .image-activity{
-    height: 100px;
-    width: 100px;
     display: inline-block;
 }
 #cont-images-activity{
@@ -319,4 +325,22 @@ a.active{
 }
 section#show-groups{
     padding: 20px;
+}
+#cont-cat-sec>ul{
+    padding: 0px;
+}
+#cont-cat-sec>ul>li{
+    display: inline-block;
+    margin-right: 10px;
+}
+#title-category>h3,#title-category>img,#title-category>p{
+    display: inline-block;
+    margin-right: 5px;
+}
+#title-category>h3{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.icon-cat{
+    margin-right: 3px;
 }

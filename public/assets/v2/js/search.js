@@ -89,7 +89,7 @@ $(document).ready(function () {
                         numResult += groupsxcat;
                         if(groupsxcat != 0){
                             var catActual = data[i][0].nomcat;
-                            content += '<div class="panel panel-default"><div class="panel-body"><div class="well well-sm well-cat"><h3>' + catActual + '</h3>'+groupsxcat+' grupos registrados</div>';
+                            content += '<div class="panel panel-default"><div class="panel-body"><div class="well well-sm well-cat"><div id=title-category><img src="/assets/v2/images/categories/'+data[i][0].icon+'"><h3>' + catActual + '</h3><p>'+groupsxcat+' grupos registrados</p></div></div>';
                             for (var j = 0; j < data[i].length; j++) {
                                 descripcion = data[i][j].descripcion;
                                 descripcion = descripcion.substring(0, 41);

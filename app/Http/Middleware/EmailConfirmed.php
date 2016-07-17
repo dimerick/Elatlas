@@ -28,7 +28,8 @@ class EmailConfirmed {
 		$email = $user['attributes']['email'];
 		if($user['attributes']['confirmada'] == 0){
 			Auth::logout();
-			return view('activate_solic', compact('email'));
+			$user = null;
+			return view('v2/activate_solic', compact('email', 'user'));
 		}
 		return $next($request);
 	}
