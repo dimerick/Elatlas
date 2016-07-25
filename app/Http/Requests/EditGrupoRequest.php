@@ -42,13 +42,13 @@ class EditGrupoRequest extends Request {
 			'nombre' => 'required',
 			'nom_repre' => 'required',
 			'telefono' => 'required',
-			'email' => "required|unique:cuenta,email,$email,email",
+			//'email' => "required|unique:cuenta,email,$email,email",
 			'ciudad' => 'required',
 			'latitud' => 'required',
 			'longitud' => 'required',
 			'num_int' => 'required',
 			'descripcion' => 'required',
-			'password' => 'confirmed|min:6',
+//			'password' => 'confirmed|min:6',
 		];
 	}
 

@@ -4,10 +4,6 @@
     Reportes
     @endsection
 
-@section('options-user')
-    @include('partials/options-user')
-@endsection
-
 @section('content')
 <section id="reports">
     <p><strong>{{$numApr}} reportes aprobados de {{$num}} registrados </strong></p>

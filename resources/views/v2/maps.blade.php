@@ -9,9 +9,6 @@
     <link href="{{ asset('assets/v2/css/map.css') }}" rel="stylesheet">
 @endsection
 
-@section('options-user')
-    @include('partials/options-user')
-@endsection
 
 @section('content')
 

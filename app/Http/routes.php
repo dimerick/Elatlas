@@ -13,6 +13,7 @@
 
 Route::get('/', 'v2Controller@about');//v2
 Route::get('/inicio', 'v2Controller@about');//v2
+Route::get('/home', 'v2Controller@about');//v2
 Route::get('alexissaenz', 'BasicController@indexAlexis');//No v2
 Route::get('retorno', 'BasicController@retorno');//No v2
 Route::get('new/index', 'BasicController@newInterfaz');//No v2
@@ -35,6 +36,8 @@ Route::get('v2', 'v2Controller@about');//v2
 Route::get('v2/mapa-grupos', 'v2Controller@mapGroups');//v2
 Route::get('v2/mapa-acciones', 'v2Controller@mapAct');//v2
 Route::get('v2/preguntas-frecuentes', 'v2Controller@questions');//v2
+Route::get('v2/mapa-recorridos', 'v2Controller@mapRecorridos');//v2
+Route::get('v2/resend-code-activation/{id}', 'v2Controller@resendCodeActivation');//v2
 
 
 //voy a reescalar las imagenes de perfil y actividades
@@ -45,6 +48,7 @@ Route::get('v2/reescalar-acti', 'v2Controller@reescalarActi');//v2
 Route::get('v2/groups-register', 'v2Controller@groupsRegister');//v2 ajax
 Route::get('v2/activities-register', 'v2Controller@activitiesRegister');//v2 ajax
 Route::get('v2/activities-group-register/{id}', 'v2Controller@activitiesGroupRegister');//v2 ajax
+Route::get('v2/tours-register', 'v2Controller@toursRegister');//v2 ajax
 //Route::get('v2', 'v2Controller@template');
 
 
@@ -65,15 +69,23 @@ Route::get('active/{cod}', 'ActiveCountController@index');
 
 Route::group(['prefix' => 'user', 'middleware' => ['auth', 'email_confirmed']], function(){
 	Route::get('publications', 'UserController@publications');//v2
+	Route::get('v2/mapa-grupos', 'v2Controller@mapGroups');//v2
 	Route::get('upload-activity', 'UserController@uploadActivity');//v2
 	Route::post('upload-activity', 'UserController@uploadActivityPost');//v2
 	Route::post('search-post', 'UserController@searchPost');//No v2
 	Route::get('upload-photos/{id}', 'UserController@uploadPhotos');//v2
-	Route::post('upload-photos', 'UserController@uploadPhotosPost');//v2
+	Route::post('upload-photos', 'FilesController@uploadPhotosPost');//v2
 	Route::get('my-publications', 'UserController@myPublications');//v2
 	Route::get('reports/edit/{id}', 'UserController@editReport');//v2
 	Route::post('reports/update', 'UserController@updateReport');//v2
 	Route::get('reports/delete/{id}', 'UserController@deleteReport');//v2
+	Route::get('edit-photo-profile', 'UserController@editPhotoProfile');//v2
+	Route::post('update-photo-profile', 'FilesController@updatePhotoProfile');//v2
+	Route::get('get-photo-profile', 'UserController@getPhotoProfile');//v2
+	Route::get('success-act-reg-sin-fotos', 'UserController@activityWithoutPhotos');//v2
+	Route::get('report/upload-coordinates/{id}', 'UserController@uploadCoordinates');//v2
+	Route::get('report/upload-coordinates-post/{data}', 'UserController@uploadCoordinatesPost');//v2
+
 });
 
 	Route::get('publications', 'UserController@publications');//v2

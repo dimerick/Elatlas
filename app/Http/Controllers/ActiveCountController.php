@@ -21,7 +21,6 @@ class ActiveCountController extends Controller {
 
     public function index($cod){
         $user = $this->datUser;
-//        return ('Estas intentado activar el codigo ' . $cod);
     $result = \DB::table('cuenta')
         ->where('confirmation_code', $cod)
         ->update(['confirmada' => 1, 'confirmation_code' => null]);

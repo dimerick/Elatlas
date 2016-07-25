@@ -10,24 +10,28 @@
 
 @section('content')
 
-                    @include('partials.messages')
+                    @include('v2/partials/messages')
                     <div class="panel panel-default">
                         <div class="panel-heading"><h4>Formulario de Edicion</h4>
-                        <br>
                             Requerido*
                         </div>
 
                         <div class="panel-body">
 
-                    {!! Form::open(array('route' => 'grupos.update', 'files' => true, 'method' => 'PUT')) !!}
+                    {!! Form::open(array('route' => 'grupos.update', 'method' => 'PUT')) !!}
                             <div class="form-group">
                                 <label>{{ trans('validation.attributes.name') }}*</label>
-                                {!! Form::text('nombre', $user['nombre'], ['class'=> 'form-control']) !!}
+                                {!! Form::text('nombre', $user['nombre'], ['class'=> 'form-control', 'required' => 'required']) !!}
                             </div>
 
                             <div class="form-group">
                                 <label>Nombre representante*</label>
                                 {!! Form::text('nom_repre', $user['representante'], ['class'=> 'form-control', 'required' => 'required', 'id' => 'nom-repre']) !!}
+                            </div>
+
+                            <div class="form-group">
+                                <label>Direccion*</label>
+                                {!! Form::text('direccion', $user['direccion'], ['class'=> 'form-control', 'required' => 'required', 'id' => 'direccion']) !!}
                             </div>
 
                             <div class="form-group">
@@ -37,12 +41,12 @@
 
                             <div class="form-group">
                                 <label>{{ trans('validation.attributes.email') }}*</label>
-                                {!! Form::email('email', $user['email'], ['class'=> 'form-control']) !!}
+                                {!! Form::email('email', $user['email'], ['class'=> 'form-control', 'required' => 'required', 'disabled']) !!}
                             </div>
 
                             <div class="form-group">
                                 <label>{{ trans('validation.attributes.city') }}*</label>
-                                {!! Form::text('ciudad', $user['ciudad'], ['class'=> 'form-control']) !!}
+                                {!! Form::text('ciudad', $user['ciudad'], ['class'=> 'form-control', 'required' => 'required']) !!}
                             </div>
 
                             <div class="form-group">
@@ -93,29 +97,23 @@
 
                             <div class="form-group">
                                 <label>{{ trans('validation.attributes.num_int') }}*</label>
-                                {!! Form::number('num_int', $user['num_int'], ['min' => '1', 'class' => 'form-control']) !!}
+                                {!! Form::number('num_int', $user['num_int'], ['min' => '1', 'class' => 'form-control', 'required' => 'required']) !!}
                             </div>
 
                             <div class="form-group">
                                 <label>{{ trans('validation.attributes.descript') }}*</label>
-                                {!! Form::textarea('descripcion', $descripcion, ['cols' => '70', 'rows' => '7', 'class' => 'form-control']) !!}
+                                {!! Form::textarea('descripcion', $descripcion, ['cols' => '70', 'rows' => '7', 'class' => 'form-control', 'required' => 'required']) !!}
                             </div>
 
-                            <div class="form-group">
-                                <label>{{ trans('validation.attributes.file') }}</label>
-                                {!! Form::file('foto', ['accept' => 'image/*', 'class' => 'form-control']) !!}
-                                <input type="checkbox" name="fotoAct"> Conservar foto actual
-                            </div>
+                           {{--<div class="form-group">--}}
+                                {{--<label>{{ trans('validation.attributes.password') }}*</label>--}}
+                                {{--{!! Form::password('password', ['class'=> 'form-control', 'required' => 'required']) !!}--}}
+                            {{--</div>--}}
 
-                            <div class="form-group">
-                                <label>{{ trans('validation.attributes.password') }}*</label>
-                                {!! Form::password('password', ['class'=> 'form-control']) !!}
-                            </div>
-
-                            <div class="form-group">
-                                <label>{{ trans('validation.attributes.password_confirmation') }}*</label>
-                                {!! Form::password('password_confirmation', ['class'=> 'form-control']) !!}
-                            </div>
+                            {{--<div class="form-group">--}}
+                                {{--<label>{{ trans('validation.attributes.password_confirmation') }}*</label>--}}
+                                {{--{!! Form::password('password_confirmation', ['class'=> 'form-control', 'required' => 'required']) !!}--}}
+                            {{--</div>--}}
 
                             <div>
                     {!! Form::submit(trans('Actualizar'),['class' => 'btn btn-primary']) !!}

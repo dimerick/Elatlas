@@ -1,16 +1,15 @@
 @extends('v2/template-auth-2')
 
 @section('title')
-    Confirmación Registro
+    Link de confirmacion reenviado
 @endsection
 
 
 @section('content')
                     @include('v2/partials/messages')
                     <div class="alert">
-                        <p>Para terminar el proceso de registro hemos enviado un link de confirmación al correo:</p>
+                        <p>Se ha reenviado el link de confirmación al correo:</p>
                         <p><b>{{$email}}</b></p>
-                        <p>Recuerda revisar el correo no deseado.</p>
 
                         <br>
                         <p>¿No has recibido el email?

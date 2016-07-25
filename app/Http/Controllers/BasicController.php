@@ -94,7 +94,6 @@ class BasicController extends Controller {
     public function allGroupsAjax(){
         $grupos = \DB::table('cuenta')
             ->select('nombre', 'email', 'ciudad', 'num_int', 'descripcion', 'foto')
-            ->where('confirmada', 1)
             ->where('cuenta.tipo', 'user')
             ->orderBy('nombre', 'ASC')
             ->get();
@@ -105,7 +104,6 @@ class BasicController extends Controller {
         $grupos = \DB::table('cuenta')
             ->select('nombre', 'email', 'ciudad', 'num_int', 'descripcion', 'foto')
             ->where('nombre', 'LIKE', "%$cadena%")
-            ->where('confirmada', 1)
             ->where('cuenta.tipo', 'user')
             ->orderBy('nombre', 'ASC')
             ->get();
@@ -123,7 +121,6 @@ class BasicController extends Controller {
                     ->join('categoria', 'grupoxcategoria.categoria', '=', 'categoria.id')
                     ->select('cuenta.nombre', 'cuenta.email', 'cuenta.ciudad', 'cuenta.num_int', 'cuenta.descripcion', 'cuenta.foto', 'categoria.nombre as nomcat', 'categoria.icon')
                     ->where('grupoxcategoria.categoria', $cat)
-                    ->where('cuenta.confirmada', 1)
                     ->where('cuenta.tipo', 'user')
                     ->orderBy('cuenta.nombre', 'ASC')
                     ->get();

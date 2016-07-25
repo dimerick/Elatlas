@@ -30,7 +30,7 @@ $(document).ready(function () {
                     var content = "<table class='table'>";
                     if (data.length > 0) {
                         for (var i = 0; i < data.length; i++) {
-                            content += '<tr class="tr-search" id="' + data[i].email + '"><td class="foto-search"><img width="6%" src="/files/' + data[i].foto + '"></td><td><b>' + data[i].nombre + '</b></td></tr>'
+                            content += '<tr class="tr-search" id="' + data[i].email + '"><td class="foto-search"><img width="6%" src="/files/fotos_perfil/' + data[i].foto + '"></td><td><b>' + data[i].nombre + '</b></td></tr>'
                             num++;
                         }
                         content += '</table>';
@@ -96,7 +96,7 @@ $(document).ready(function () {
                                 url = data[i][j].foto;
                                 nombre = data[i][j].nombre;
                                 email = data[i][j].email;
-                                content += '<div class="col-sm-4"><div class="thumbnail"><img src="/files/'+url+'">' +
+                                content += '<div class="col-sm-4"><div class="thumbnail"><img src="/files/fotos_perfil/'+url+'">' +
                                     '<div class="caption"><h3>'+nombre+'</h3><p>'+descripcion+'...</p><p><a href="/autor/'+email+'" class="btn btn-primary" role="button">Ver mas</a></p></div></div></div>';
 
 
@@ -142,7 +142,7 @@ content += '<div class="row"><div class="col-sm-12"><b>'+num + ' grupos registra
                     for(var i= 0; i < data.length; i++){
                         descripcion = data[i].descripcion.substring(0, 41);
                         content += '<div class="row"><div class="col-sm-12"> <div class="panel panel-default"><div class="panel-body">' +
-                            '<div class="col-sm-4"><img width="100%" src="/files/'+data[i].foto+'" alt="">' +
+                            '<div class="col-sm-4"><img width="100%" src="/files/fotos_perfil/'+data[i].foto+'" alt="">' +
                             '</div><div class="col-sm-8"><h3>'+data[i].nombre+'</h3>' +
                             '<p>'+descripcion+'...</p>' +
                             '<p><a href="/autor/'+data[i].email+'" target="_blank" class="btn btn-primary" role="button">Ver mas</a></p></div></div></div></div></div></section>';

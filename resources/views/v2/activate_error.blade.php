@@ -1,18 +1,16 @@
-@extends('v2/template')
+@extends('v2/template-auth-2')
 
 @section('title')
     Activacion Cuenta
 @endsection
 
-@section('options-user')
-    @include('partials/options-user')
-@endsection
-
 
 @section('content')
                     <div class="alert alert-danger">
-                        <p>Error al activar la cuenta</p>
-                        Posiblemente la cuenta ya ha sido activada.<br>Si tienes problemas para activar tu cuenta escribenos al email info@elatlas.org
+                        <p>Codigo de activación no valido</p>
+                        </div>
+                    <div class="alert">
+                    <p>Si tienes problemas para activar tu cuenta escribenos al email <b>info@elatlas.org</b></p>
                     </div>
 
 

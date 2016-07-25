@@ -6,11 +6,11 @@ $(document).ready(function(){
         var long = feature.geometry.coordinates[1];
         console.log(lat);
         console.log(long);
-
+        
+        
         console.log(feature.geometry.properties.nombre);
-        var content = '<div id="info-map" class="plegable animated bounceInDown"><a href="#" id="ocult-info-map"> <i class="fa fa-close"></i></a>' +
-            '<hr>' +
-                '<a href="/files/'+feature.geometry.properties.foto+'" data-lightbox="'+feature.geometry.properties.nombre+'" data-title="'+feature.geometry.properties.nombre.toUpperCase()+'"><img src="/files/'+feature.geometry.properties.foto+'" width="80%"" class="img-rounded"></a>' +
+        var content = '<div id="info-map" class="plegable animated bounceInDown"><a href="#" id="ocult-info-map" class="pull-right"> <i class="fa fa-close fa-2x"></i></a>' +
+                '<hr>'+'<a href="/files/fotos_perfil/'+feature.geometry.properties.foto+'" data-lightbox="'+feature.geometry.properties.nombre+'" data-title="'+feature.geometry.properties.nombre.toUpperCase()+'"><img src="/files/fotos_perfil/'+feature.geometry.properties.foto+'" width="80%"" class="img-rounded"></a>' +
         '<a href="/autor/'+feature.geometry.properties.email+'"><h3>'+feature.geometry.properties.nombre.toUpperCase()+'</h3></a>' +
         '<div id="categories-group">'+
         '<ul>';
@@ -94,3 +94,4 @@ $(document).ready(function(){
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
 
 });
+

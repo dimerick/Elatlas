@@ -64,39 +64,10 @@ class GruposController extends Controller {
 	 */
 	public function store(CreateGrupoRequest $request, Redirector $redirect)
 	{
-		$file = $request->file('foto');
-		$date = Carbon::now();
-		$date = $date->toDateTimeString();
-		$search1 = array(":", " ");
-		$replace1 = array("-", "_");
-		$dateMod = str_replace($search1, $replace1, $date);
-		$search = array("á", "é", "í", "ó", "ú", "Á", "É", "Í", "Ó", "Ú", " ");
-		$replace = array("a", "e", "i", "o", "u", "a", "e", "i", "o", "u", "-");
-		$nomMod = str_replace($search, $replace, $request->nombre);
-
-		$num = 1;
-		$path = public_path().'/files/fotos_perfil/';
-		$originalName = $file->getClientOriginalName();
-		$arrayName = explode('.', $originalName);
-		$ext = end($arrayName);
-		$ruta = $nomMod."_".$num.".".$ext;
-		$rutaComp = $path.$ruta;
-
-		while(file_exists($rutaComp)){
-			$num++;
-			$ruta = $nomMod."_".$num.".".$ext;
-			$rutaComp = $path.$ruta;
-		}
-		$file->move($path, $ruta);
-		if(file_exists($rutaComp)) {
-			$image = new ImageResize($rutaComp);
-			$image->resizeToWidth(1200);
-			$image->save($rutaComp);
-		}
-
 		$descripcion = $request->descripcion;
 		$cuenta = Cuenta::create([
 			'nombre' => $request->nombre,
+			'direccion' => $request->direccion,
 			'tipo' => 'user',
 			'representante' => $request->nom_repre,
 			'telefono' => $request->telefono,
@@ -106,7 +77,6 @@ class GruposController extends Controller {
 			'longitud' => $request->longitud,
 			'num_int' => $request->num_int,
 			'descripcion' => $descripcion,
-			'foto' => $ruta,
 			'password' => bcrypt($request->password),
 			'confirmada' => 0,
 			'confirmation_code' => str_random(40)
@@ -130,18 +100,16 @@ class GruposController extends Controller {
 			}
 			$datCuenta = Cuenta::findOrFail($email);
 			$datUser = $datCuenta['attributes'];
-			Mail::send('email_conf', ['nombre' => $datUser['nombre'], 'email' => $datUser['email'], 'cod_act' => $datUser['confirmation_code']], function($message) use ($email, $nombre)
+			Mail::send('v2/email_conf', ['nombre' => $datUser['nombre'], 'email' => $datUser['email'], 'cod_act' => $datUser['confirmation_code']], function($message) use ($email, $nombre)
 			{
 
-				$message->to($email, $nombre)->from('atlasdelafecto@gmail.com', 'El atlas')->subject('Codigo de activación!');
+				$message->to($email, $nombre)->from('noresponder@elatlas.org', 'El Atlas')->subject('Codigo de activación!');
 			});
 			$user = $this->datUser;
 		return view('v2/conf_registro', compact('email', 'user'));
-//		return $redirect->route('grupos.index');
 		}else{
 			return("Se produjo un error al crear el registro");
 		}
-//		//
 	}
 
 	/**
@@ -245,47 +213,26 @@ $estado = true;
 		$cuenta = Cuenta::find($user['email']);
 		$activo = $request->fotoAct;
 
-//		$descripcion = nl2br($request->descripcion);
-//		$descripcion = str_replace("\n", "<br>", $request->descripcion);
+
 		$descripcion = $request->descripcion;
 		$cuenta->nombre = $request->nombre;
+		$cuenta->direccion = $request->direccion;
 		$cuenta->representante = $request->nom_repre;
 		$cuenta->telefono = $request->telefono;
-		$cuenta->email = $request->email;
+		//$cuenta->email = $request->email;
 		$cuenta->ciudad = $request->ciudad;
 		$cuenta->latitud = $request->latitud;
 		$cuenta->longitud = $request->longitud;
 		$cuenta->num_int = $request->num_int;
 		$cuenta->descripcion = $descripcion;
 
-		if(!$activo){
-			$file = $request->file('foto');
-			if($file != null){
-				$date = Carbon::now();
-				$date = $date->toDateTimeString();
-				$search1 = array(":", " ");
-				$replace1 = array("-", "_");
-				$dateMod = str_replace($search1, $replace1, $date);
-				$search = array("á", "é", "í", "ó", "ú", "Á", "É", "Í", "Ó", "Ú", " ");
-				$replace = array("a", "e", "i", "o", "u", "a", "e", "i", "o", "u", "-");
-				$nomPerfilMod = str_replace($search, $replace, $request->nombre);
-
-				$ruta = "fotos_perfil/".$dateMod."_".$nomPerfilMod.".jpg";
-				\Storage::disk('local')->put($ruta, \File::get($file));
-			$cuenta->foto = $ruta;
-			}else{
-				$ruta = "fotos_perfil/logo-atlas.png";
-				$cuenta->foto = $ruta;
-			}
-		}
-
-		if($request->password != null){
-			$cuenta->password = bcrypt($request->password);
-		}
+//		if($request->password != null){
+//			$cuenta->password = bcrypt($request->password);
+//		}
 
 		$cuenta->save();
 
-		return redirect('/publications')->with('message', 'Actualizacion Exitosa');
+		return redirect('/publications')->with('succes', 'Se ha actualizado su perfil exitosamente');
 	}
 
 	/**

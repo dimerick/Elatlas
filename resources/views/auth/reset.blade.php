@@ -1,4 +1,4 @@
-@extends('v2/template')
+@extends('v2/template-auth-2')
 
 @section('title')
 	Resetear

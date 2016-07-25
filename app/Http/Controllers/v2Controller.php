@@ -23,6 +23,11 @@ class v2Controller extends Controller {
         $user = $this->datUser;
         return view('v2/activities-map', compact('user'));
     }
+
+    public function mapRecorridos(){
+        $user = $this->datUser;
+        return view('v2/tours-map', compact('user'));
+    }
     public function template(){
         $user = $this->datUser;
         return view('v2/template', compact('user'));
@@ -36,14 +41,14 @@ class v2Controller extends Controller {
     public function groupsRegister(){
         $grupos = \DB::table('cuenta')
             ->select('nombre', 'email', 'ciudad','num_int', 'descripcion', 'latitud', 'longitud', 'foto')
-            ->where('confirmada', 1)
             ->where('tipo', '<>', 'admin')
             ->get();
 
         $features = array();
 
         foreach($grupos as $grupo){
-            $descripcion = substr($grupo->descripcion, 0, 430);
+            //$descripcion = substr($grupo->descripcion, 0, 430);
+            $descripcion = $grupo->descripcion;
             $descripcion = str_replace("\n", "<br>", $descripcion);
             $id = $grupo->email;
             $categorias = \DB::table('grupoxcategoria')
@@ -99,6 +104,63 @@ $id = $act->id;
                 'geometry' => array(
                     'type' => 'Point',
                     'coordinates' => array((float)$act->longitud, (float)$act->latitud),
+                    'properties' => array(
+                        'autor' => $act->nombre,
+                        'email' => $act->email,
+                        'id' => $act->id,
+                        'titulo' => $act->titulo,
+                        'fecha' => $act->fecha,
+                        'nom-cat' => $act->nomCat,
+                        'icon' => $act->icon,
+                        'creada' => $act->created_at,
+                        'descripcion' => $descripcion,
+                        'fotos' => $fotos,
+                    ),
+                ),
+            );
+        }
+        $allFeatures = array('type' => 'FeatureCollection', 'features' => $features);
+        return json_encode($allFeatures, JSON_PRETTY_PRINT);
+    }
+
+    public function toursRegister(){
+        $actividades = \DB::table('actividad')
+            ->join('cuenta', 'actividad.grupo', '=', 'cuenta.email')
+            ->join('categoria', 'actividad.categoria', '=', 'categoria.id')
+            ->select('cuenta.nombre', 'cuenta.email', 'actividad.id', 'actividad.titulo', 'actividad.fecha', 'actividad.created_at', 'actividad.descripcion', 'actividad.latitud', 'actividad.longitud', 'categoria.nombre as nomCat', 'categoria.icon')
+            ->where('actividad.confirmada', 1)
+            ->where('actividad.tipo', 2)
+            ->orderBy('actividad.created_at', 'DESC')
+            ->get();
+
+        $features = array();
+
+        foreach($actividades as $act){
+            $id = $act->id;
+            $descripcion = str_replace("\n", "<br>", $act->descripcion);
+            $fotos = \DB::table('foto')
+                ->select('url')
+                ->where('actividad', $id)
+                ->get();
+            $puntos = \DB::table('coordenada')
+                ->select('latitud', 'longitud')
+                ->where('actividad', $id)
+                ->orderBy('creada', 'DESC')
+                ->get();
+
+            $coordinates = array();
+
+            foreach ($puntos as $punto){
+            $coordinate = array($punto->longitud, $punto->latitud);
+            $coordinates[] = $coordinate;
+            }
+
+
+            $features[] = array(
+                'type' => 'Feature',
+                'geometry' => array(
+                    'type' => 'LineString',
+                    'coordinates' => $coordinates,
                     'properties' => array(
                         'autor' => $act->nombre,
                         'email' => $act->email,
@@ -190,5 +252,25 @@ public function questions(){
 
     public function reescalarActi(){
 //        return "Reescalando imagenes de actividades";
+    }
+
+    public function resendCodeActivation($id){
+
+        $user = \DB::table('cuenta')
+            ->where('email', $id)
+            ->get();
+        if(count($user) > 0){
+            $nombre = $user[0]->nombre;
+            $email = $user[0]->email;
+            $code = $user[0]->confirmation_code;
+            \Mail::send('v2/resend-code', ['nombre' =>$nombre, 'email' => $email, 'cod_act' => $code], function($message) use ($email, $nombre)
+            {
+                $message->to($email, $nombre)->from('noresponder@elatlas.org', 'El Atlas')->subject('Codigo de activación!');
+            });
+            return view('v2/resend-code-success', compact('email'));
+        }
+
+
+
     }
 }

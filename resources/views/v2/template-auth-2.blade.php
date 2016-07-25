@@ -232,14 +232,14 @@
                     <div class="row">
                         <div class="col-sm-12">@yield('content')</div>
                     </div>
-                </section>
 
+                </section>
 
             </div>
 
             <div class="col-sm-3">
                 <section id="nav-right">
-@include('v2/partials/options-user-right')
+
                 </section>
             </div>
         </section>

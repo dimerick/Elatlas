@@ -1,18 +1,18 @@
-@extends('v2/template')
+@extends('v2/template-auth-2')
 
 @section('title')
     Activacion Exitosa
 @endsection
 
-@section('options-user')
-    @include('partials/options-user')
-@endsection
 
 @section('content')
 
                     <div class="alert alert-success">
-                        <p>La cuenta ha sido activada exitosamente, ya puedes disfrutar de todos los beneficios de pertenecer a esta comunidad mundial</p>
-
+                        <p>La cuenta ha sido activada exitosamente.</p>
+                    </div>
+                    <div class="alert">
+                        <p>ya puedes disfrutar de todos los beneficios de pertenecer a esta comunidad mundial.</p>
+                        <br>
                         <p><a href="/auth/login" class="btn btn-primary" role="button">Iniciar Sesion</a></p>
                     </div>
 @endsection

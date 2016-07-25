@@ -44,14 +44,16 @@ class UserController extends Controller {
 			->select('id', 'nombre')
 			->orderBy('id', 'ASC')
 			->get();
-		return view('v2/upload_activity', compact('user', 'categorias'));
+		$tipos_act = \DB::table('tipo_actividad')
+			->select('id', 'nombre')
+			->orderBy('id', 'ASC')
+			->get();
+		return view('v2/upload_activity', compact('user', 'categorias', 'tipos_act'));
 
 	}
 
 
 	public function uploadActivityPost(Request $request){
-		
-		$check = $request->get('check-load-fotos');
 		$user = $this->datUser;
 		$email = $user['email'];
 		$titulo = $request->get('titulo');
@@ -60,7 +62,7 @@ class UserController extends Controller {
 		$latitud = $request->get('latitud');
 		$longitud = $request->get('longitud');
 		$categoria = $request->get('categoria');
-
+		$tipo = $request->get('tipo');
 
 		$search = array("á", "é", "í", "ó", "ú", "Á", "É", "Í", "Ó", "Ú", " ");
 		$replace = array("a", "e", "i", "o", "u", "a", "e", "i", "o", "u", "-");
@@ -69,8 +71,9 @@ class UserController extends Controller {
 		$nomMod = str_replace($search, $replace, $titulo);
 
 
-		$result = Actividad::create([
+		$activity = Actividad::create([
 			'grupo' => $email,
+			'tipo' => $tipo,
 			'titulo' => $titulo,
 			'fecha' => $fecha,
 			'descripcion' => $descripcion,
@@ -79,53 +82,11 @@ class UserController extends Controller {
 			'longitud' => $longitud,
 			'confirmada' => 1
 		]);
-
-		$path = public_path().'/files/actividades/';
-		$files = $request->file('file');
-
-
-		if($result->id > 0){
-			$exito = true;
-			$insertedId = $result->id;
-			if($files != null){
-				$num = 1;
-				foreach($files as $file){
-					$originalName = $file->getClientOriginalName();
-					$arrayName = explode('.', $originalName);
-					$ext = end($arrayName);
-					$ruta = $nomMod."_".$num.".".$ext;
-					$rutaComp = $path.$ruta;
-
-					while(file_exists($rutaComp)){
-						$num++;
-						$ruta = $nomMod."_".$num.".".$ext;
-						$rutaComp = $path.$ruta;
-					}
-					$file->move($path, $ruta);
-
-					if(file_exists($rutaComp)){
-						$image = new ImageResize($rutaComp);
-						$image->resizeToWidth(1200);
-						$image->save($rutaComp);
-
-//						$image->quality_jpg = 100;
-//						$image->resize(800, 600);
-//						$image->save($rutaComp);
-
-						$result2 = Foto::create([
-							'actividad' => $insertedId,
-							'url' => $ruta
-						]);
-					}
-				}
-			}
-
+		if($activity){
+			return view('v2/successful-activity-register', compact('user', 'activity'));
+		}else{
+			echo "Error al registrar la actividad";
 		}
-if($check == "on"){
-	return redirect("/user/my-publications")->with('message', "Se registro el reporte $titulo exitosamente");
-}
-
-
 	}
 
 	public function uploadPhotos($id){
@@ -139,56 +100,6 @@ if($check == "on"){
 			return redirect("/v2/publications/$id")->with('message', "No tienes permiso para editar este reporte");
 		}
 
-	}
-
-	public function uploadPhotosPost(Request $request){
-
-		$id = $request->get('id');
-		$actividad = Actividad::find($id);
-		$datos = $actividad['attributes'];
-		$titulo = $datos['titulo'];
-
-
-		$path = public_path().'/files/actividades/';
-		$files = $request->file('file');
-
-		$search = array("á", "é", "í", "ó", "ú", "Á", "É", "Í", "Ó", "Ú", " ");
-		$replace = array("a", "e", "i", "o", "u", "a", "e", "i", "o", "u", "-");
-		$search1 = array(":", " ");
-		$replace1 = array("-", "_");
-
-		$nomMod = str_replace($search, $replace, $titulo);
-		$num = 1;
-
-		if($files != null){
-			foreach($files as $file){
-				$originalName = $file->getClientOriginalName();
-				$arrayName = explode('.', $originalName);
-				$ext = end($arrayName);
-				
-				$ruta = $nomMod."_".$num.".".$ext;
-				$rutaComp = $path.$ruta;
-
-				while(file_exists($rutaComp)){
-					$num++;
-					$ruta = $nomMod."_".$num.".".$ext;
-					$rutaComp = $path.$ruta;
-				}
-
-				$file->move($path, $ruta);
-
-				if(file_exists($rutaComp)){
-					$image = new ImageResize($rutaComp);
-					$image->resizeToWidth(1200);
-					$image->save($rutaComp);
-
-					$result2 = Foto::create([
-						'actividad' => $id,
-						'url' => $ruta
-					]);
-				}
-			}
-		}
 	}
 
 	public function publications(){
@@ -255,19 +166,49 @@ if($actAnt == null){
 
 	}
 
+	public function uploadCoordinates($id){
+		$user = $this->datUser;
+		$datos = DB::table('actividad')
+			->select('id', 'grupo', 'titulo')
+			->where('id', $id)
+			->get();
+		if(count($datos) > 0){
+			if($datos[0]->grupo == $user['email']){
+				return view('v2/upload-coordinates', compact('user', 'datos'));
+			}else{
+				return redirect()->back()->with('message', "No tienes permiso para agregar coordenadas a este recorrido");
+			}
+		}else{
+			return redirect()->back()->with('message', "El recorrido no es valido");
+		}
+	}
+
+	public function uploadCoordinatesPost($data){
+		$item = explode(';', $data);
+		if(count($item) == 3){
+			$id = $item[0];
+			$lat = $item[1];
+			$long = $item[2];
+			$success = DB::table('coordenada')->insert(
+				['actividad' => $id, 'latitud' => $lat, 'longitud' => $long]
+			);
+			if($success){
+				return response()->json(['success' => true, 'lat' => $lat, 'long' => $long]);
+			}else{
+				return response()->json(['success' => false, 'lat' => $lat, 'long' => $long]);
+			}
+
+		}
+
+	}
+
 	public function showAutor($id){
 		$user = $this->datUser;
 		$cuenta = DB::table('cuenta')
 			->select('nombre', 'email', 'ciudad', 'latitud', 'longitud', 'num_int', 'descripcion', 'foto')
 			->where('email', $id)
 			->get();
-//		dd($cuenta[0]->descripcion);
-//		dd($cuenta[0]->descripcion);
-//		$descripcion = str_replace("\n", "<br>", $cuenta[0]->descripcion);
-//		$descripcion = nl2br($cuenta[0]->descripcion);
 		$descripcion = nl2br(htmlentities($cuenta[0]->descripcion));
-//		$descripcion = htmlentities($cuenta[0]->descripcion);
-//		dd($descripcion);
 		$actividades = DB::table('actividad')
 			->join('categoria', 'actividad.categoria', '=', 'categoria.id')
 			->where('actividad.grupo', $id)
@@ -335,14 +276,14 @@ if($actAnt == null){
 		$email = $user['email'];
 		$actividades = DB::table('actividad')
 			->where('grupo', $email)
-			->select('id', 'titulo', 'fecha', 'created_at', 'descripcion', 'confirmada')
+			->select('id', 'tipo', 'titulo', 'fecha', 'created_at', 'descripcion', 'confirmada')
 			->orderBy('id', 'DESC')
 			->get();
 		$num = count($actividades);
 		return view('v2/my-publications', compact('user', 'num', 'actividades'));
-
 	}
 
+	
 	public function deleteReport($id){
 		$fotos = DB::table('foto')
 			->where('actividad', $id)
@@ -388,4 +329,21 @@ if($actAnt == null){
 
 		return redirect("/user/my-publications")->with('message', "Se actualizo el reporte exitosamente");
 	}
+
+	public function editPhotoProfile(){
+		$user = $this->datUser;
+		if($user != null){
+			return view('v2/edit-photo-profile', compact('user'));
+		}else{
+			return view('auth.login', compact('user'));
+		}
+		
+	}
+
+	public function getPhotoProfile(){
+		$user = $this->datUser;
+		$foto = $user['foto_peq'];
+		return $foto;
+	}
+	
 }

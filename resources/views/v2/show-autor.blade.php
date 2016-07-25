@@ -1,17 +1,12 @@
 @extends('v2/template')
 
 @section('title')
-    Atlas del afecto
+    Perfil {{$cuenta[0]->nombre}}
 @endsection
 
 @section('css')
     <link href="{{ asset('assets/v2/css/Control.FullScreen.css') }}" rel="stylesheet">
 @endsection
-
-@section('options-user')
-    @include('partials/options-user')
-@endsection
-
 
 @section('pagina')
     Perfil {{$cuenta[0]->nombre}}
@@ -30,7 +25,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <a href="/files/{{$cuenta[0]->foto}}" data-lightbox="{{$cuenta[0]->nombre}}" data-title="{{$cuenta[0]->nombre}}"><img src="/files/{{$cuenta[0]->foto}}" width="50%" class="thumbnail photo-profile"></a>
+                            <a href="/files/fotos_perfil/{{$cuenta[0]->foto}}" data-lightbox="{{$cuenta[0]->nombre}}" data-title="{{$cuenta[0]->nombre}}"><img src="/files/fotos_perfil/{{$cuenta[0]->foto}}" width="50%" class="thumbnail photo-profile"></a>
                             <input type="hidden" id="id-group" value="{{$cuenta[0]->email}}">
                         </div>
                         <div class="col-sm-12">
@@ -182,7 +177,9 @@
                 console.log(fotos);
                 if(fotos != null) {
                     if (fotos.length > 0) {
-                        var url = fotos[0].url;
+                        var url = '/files/actividades/'+fotos[0].url;
+                    }else{
+                        var url = '/assets/v2/images//categories/'+urlIcon;
                     }
                 }
 
@@ -225,9 +222,9 @@
 
 
 
-                var content = '<div id="info-map" class="plegable animated bounceInDown"><a href="#" id="ocult-info-map"> <i class="fa fa-close"></i></a>' +
+                var content = '<div id="info-map" class="plegable animated bounceInDown"><a href="#" id="ocult-info-map" class="pull-right"> <i class="fa fa-close fa-2x"></i></a>' +
                         '<hr>' +
-                        '<a href="/files/actividades/'+url+'" data-lightbox="'+feature.geometry.properties.titulo+'" data-title="'+feature.geometry.properties.titulo.toUpperCase()+'"><img src="/files/actividades/'+url+'"  width="80%" class="img-responsive main-image-activity img-rounded"></a>' +
+                        '<a href="'+url+'" data-lightbox="'+feature.geometry.properties.titulo+'" data-title="'+feature.geometry.properties.titulo.toUpperCase()+'"><img src="'+url+'"  width="80%" class="img-responsive main-image-activity img-rounded"></a>' +
                         '<a href="/publications/'+feature.geometry.properties.id+'"><h3>'+feature.geometry.properties.titulo.toUpperCase()+'</h3></a>' +
                         '<p id="autor-activity"><em>Publicado por: </em><a target="_blank" href="/autor/'+feature.geometry.properties.email+'"><b>'+feature.geometry.properties.autor+'</b></a> el '+fechaText+'</p>' +
                         '<div id="description-activity">' +

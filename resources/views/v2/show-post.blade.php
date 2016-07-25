@@ -8,11 +8,6 @@
     <link href="{{ asset('assets/v2/css/Control.FullScreen.css') }}" rel="stylesheet">
 @endsection
 
-@section('options-user')
-    @include('partials/options-user')
-@endsection
-
-
 @section('content')
         <div class="panel panel-default">
             <input type="hidden" id="icon-activity" value="/assets/v2/images/categories/{{$datos[0]->icon}}">

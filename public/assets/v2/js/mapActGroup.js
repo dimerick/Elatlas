@@ -9,15 +9,16 @@ var id = $("#id-group").val();
             iconSize: [40, 40],
             iconAnchor: [22, 10]
         });
-        feature.geometry.properties.fecha
+        feature.geometry.properties.fecha;
         layer.setIcon(myIcon);
     
         var fotos = feature.geometry.properties.fotos;
-        var url = "";
         console.log(fotos);
         if(fotos != null) {
             if (fotos.length > 0) {
-                var url = fotos[0].url;
+                var url = '/files/actividades/'+fotos[0].url;
+            }else{
+                var url = '/assets/v2/images//categories/'+urlIcon;
             }
         }
     
@@ -60,9 +61,9 @@ var id = $("#id-group").val();
     
     
     
-        var content = '<div id="info-map" class="plegable animated bounceInDown"><a href="#" id="ocult-info-map"> <i class="fa fa-close"></i></a>' +
+        var content = '<div id="info-map" class="plegable animated bounceInDown"><a href="#" id="ocult-info-map" class="pull-right"> <i class="fa fa-close fa-2x"></i></a>' +
             '<hr>' +
-            '<a href="/files/actividades/'+url+'" data-lightbox="'+feature.geometry.properties.titulo+'" data-title="'+feature.geometry.properties.titulo.toUpperCase()+'"><img src="/files/actividades/'+url+'"  width="80%" class="img-responsive main-image-activity img-rounded"></a>' +
+            '<a href="'+url+'" data-lightbox="'+feature.geometry.properties.titulo+'" data-title="'+feature.geometry.properties.titulo.toUpperCase()+'"><img src="'+url+'"  width="80%" class="img-responsive main-image-activity img-rounded"></a>' +
         '<a href="/publications/'+feature.geometry.properties.id+'"><h3>'+feature.geometry.properties.titulo.toUpperCase()+'</h3></a>' +
         '<p id="autor-activity"><em>Publicado por: </em><a target="_blank" href="/autor/'+feature.geometry.properties.email+'"><b>'+feature.geometry.properties.autor+'</b></a> el '+fechaText+'</p>' +
         '<div id="description-activity">' +

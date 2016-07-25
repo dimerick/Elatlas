@@ -1,13 +1,8 @@
-@extends('v2/template-auth')
+@extends('v2/template-auth-2')
 
 @section('title')
 	Login
 @endsection
-
-@section('options-user')
-	@include('partials/options-user')
-@endsection
-
 
 @section('content')
 			<div class="panel panel-default">

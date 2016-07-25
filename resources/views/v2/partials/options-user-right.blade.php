@@ -1,4 +1,4 @@
-@if($user == null)
+@if(!isset($user))
         <!--Invitado-->
 <section id="login">
     <div class="panel panel-default">

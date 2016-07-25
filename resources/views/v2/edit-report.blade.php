@@ -7,10 +7,6 @@
 @section('css')
 @endsection
 
-@section('options-user')
-    @include('partials/options-user')
-@endsection
-
     @section('content')
         <div class="row">
 

@@ -38,6 +38,9 @@
                         <a href="/user/upload-photos/{{$actividad->id}}"><i class="fa fa-file-image-o" title="Cargar Fotos"></i></a>
                         <a href="/user/reports/delete/{{$actividad->id}}" id="remove"> <i class="fa fa-close fa-lg" title="Eliminar"></i> </a>
                         <a href="/user/reports/edit/{{$actividad->id}}"> <i class="fa fa-refresh fa-lg" title="Actualizar"></i> </a>
+                        @if($actividad->tipo == 2)
+                            <a href="/user/report/upload-coordinates/{{$actividad->id}}"> <i class="fa fa-map-marker fa-lg" title="Cargar Coordenadas"></i> </a>
+                        @endif
                     </td>
                 </tr>
 

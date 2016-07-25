@@ -1,16 +1,12 @@
 @extends('v2/template')
 
 @section('title')
-    Atlas del afecto
+    Mapa Grupos
 @endsection
 
 @section('css')
     <link href="{{ asset('assets/v2/css/map.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/v2/css/Control.FullScreen.css') }}" rel="stylesheet">
-@endsection
-
-@section('options-user')
-    @include('partials/options-user')
 @endsection
 
 @section('content')

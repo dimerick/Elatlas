@@ -9,6 +9,11 @@
 </div>
 
 <div class="form-group">
+    <label>Direccion*</label>
+    {!! Form::text('direccion', null, ['class'=> 'form-control', 'required' => 'required', 'id' => 'direccion']) !!}
+</div>
+
+<div class="form-group">
     <label>Telefono*</label>
     {!! Form::text('telefono', null, ['class'=> 'form-control', 'required' => 'required', 'id' => 'telefono']) !!}
 </div>
@@ -24,7 +29,8 @@
 </div>
 
 <div class="form-group">
-    <label>Arrastra el icono para establecer tu ubicacion geografica*</label>
+    <label>Arrastra el icono para establecer tu ubicación geografica* </label></br>
+    <i>Si su ubicación esta disponible sera detectada automaticamente</i>
     <div id="register-map"></div>
 </div>
 <input type="hidden" id="latitud" name="latitud" value="" required="required">
@@ -74,13 +80,8 @@
 </div>
 
 <div class="form-group">
-    <label>{{ trans('validation.attributes.file') }}*</label>
-    {!! Form::file('foto', ['accept' => 'image/*', 'class' => 'form-control', 'required' => 'required', 'id' => 'foto']) !!}
-</div>
-
-<div class="form-group">
     <label>{{ trans('validation.attributes.password') }}*</label>
-    {!! Form::password('password', ['class'=> 'form-control', 'required' => 'required', 'id' => 'password']) !!}
+    {!! Form::password('password', ['class'=> 'form-control', 'required' => 'required', 'id' => 'password', 'placeholder' => 'Minimo 6 caracteres']) !!}
 </div>
 
 <div class="form-group">

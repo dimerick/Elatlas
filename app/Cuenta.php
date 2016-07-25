@@ -15,7 +15,7 @@ class Cuenta extends Model implements AuthenticatableContract, CanResetPasswordC
     protected $table = 'cuenta';
     public $timestamps = true;
     public $primaryKey = 'email';
-    protected $fillable = ['nombre', 'tipo', 'representante', 'telefono', 'email', 'ciudad', 'latitud', 'longitud', 'num_int', 'descripcion', 'foto', 'password', 'remember_token', 'confirmada', 'confirmation_code'];
+    protected $fillable = ['nombre', 'direccion', 'tipo', 'representante', 'telefono', 'email', 'ciudad', 'latitud', 'longitud', 'num_int', 'descripcion', 'password', 'remember_token', 'confirmada', 'confirmation_code'];
     protected $hidden = ['password', 'remember_token'];
     public function scopeName($query, $name){
         if(trim($name) != ""){

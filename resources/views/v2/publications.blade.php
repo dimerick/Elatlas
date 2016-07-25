@@ -1,15 +1,11 @@
 @extends('v2/template')
 
 @section('title')
-    Publicaciones
+    Publicaciones Recientes
 @endsection
 
 @section('css')
     <link href="{{ asset('assets/css/lightbox.css') }}" rel="stylesheet">
-@endsection
-
-@section('options-user')
-    @include('partials/options-user')
 @endsection
 
 @section('content')

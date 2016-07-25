@@ -1,7 +1,7 @@
 @extends('v2/template')
 
 @section('title')
-    Añadir fotos a {{$datos['titulo']}}
+    Editar foto perfil
 @endsection
 
 @section('css')
@@ -9,16 +9,15 @@
 @endsection
 
 @section('content')
-    <div id="message">
+<div id="message">
 
-    </div>
+</div>
     <div class="panel panel-default">
 
-        <div class="panel-heading"> <h4>Añadir fotos a {{$datos['titulo']}}</h4></div>
+        <div class="panel-heading"> <h4>Editar foto de perfil</h4></div>
         <div class="panel-body">
-            {!! Form::open(['url'=> '/user/upload-photos', 'method' => 'POST', 'files'=>'true', 'id' => 'my-dropzone' , 'class' => 'dropzone']) !!}
+            {!! Form::open(['url'=> '/user/update-photo-profile', 'method' => 'POST', 'files'=>'true', 'id' => 'my-dropzone' , 'class' => 'dropzone']) !!}
 
-            <input type="hidden" name="id" value="{{$datos['id']}}">
             <div class="form-group">
             <div class="dz-message" id="dz-message">
                 <p>Haga click o arrastre la foto a esta area</p>
@@ -29,7 +28,7 @@
             <div class="form-group"><div class="dropzone-previews"></div></div>
 
 
-            <div class="form-group"><button type="submit" class="btn btn-primary" id="submit">Enviar</button></div>
+            <div class="form-group"><button type="submit" class="btn btn-primary btn-block" id="submit">Actualizar</button></div>
 
             {!! Form::close() !!}
 
@@ -44,10 +43,10 @@
     <script>
         Dropzone.options.myDropzone = {
             autoProcessQueue: false,
-            uploadMultiple: true,
-            parallelUploads: 5,
+            uploadMultiple: false,
+            parallelUploads: 1,
             maxFilesize: 2,
-            maxFiles: 10,
+            maxFiles: 1,
             acceptedFiles: 'image/*',
 
             init: function() {
@@ -60,20 +59,43 @@
                             myDropzone.processQueue();
 
                 });
-                this.on("addedfile", function(file) {
+                this.on("addedfile", function(file){
 
                 });
 
                 this.on("complete", function(file) {
                     myDropzone.removeFile(file);
                 });
-                this.on("successmultiple", function(files, response){
-                    var content = '<div class="alert alert-success">Se han cargado las fotos exitosamente</div>';
+                this.on("success", function(files, response){
+                    var content = '<div class="alert alert-success">Se ha actualizado la foto de perfil exitosamente</div>';
                     $("#message").html(content);
+                    $.ajax({
+                        url:   '/user/get-photo-profile',
+                        type:  'get',
+                        beforeSend: function () {
+                            console.log("Procesando, espere por favor...");
+                        },
+                        success: function (data){
+                            var content = '<img src="/files/fotos_perfil/'+data+'" alt="">';
+                            $("#cont-img-profile-top").html(content);
+                            console.log(data);
+
+                        },
+                        error: function(jqXHR, text){
+                            console.log(jqXHR);
+                            console.log(text);
+                        }
+                    });
+                    console.log(files);
+
 
                 });
+
+                this.on("error", function(files, response){
+                    var content = '<div class="alert alert-danger">'+response+'</div>';
+                    $("#message").html(content);
+                });
                 this.on("errormultiple", function(files, response){
-                alert("hubo un error al enviar los archivos");
                     var content = '<div class="alert alert-danger">'+response+'</div>';
                     $("#message").html(content);
                 });
