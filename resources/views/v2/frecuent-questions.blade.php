@@ -20,6 +20,7 @@
             <li>Los procesos sociales  pueden conectarse con recursos geográficos, incluyendo la generación de mapas y la articulación a proyectos de investigación.</li>
             <li>Los procesos sociales pueden contribuir a una base de datos publica – global relevante para la transformación social.</li>
         </ul>
+        <br>
         <h3>¿Quiénes Pueden Participar?</h3>
         <p>El Atlas está abierto a cualquier grupo, colectivo, ONGs, cooperativas, asambleas y otras formas de articulación de personas trabajando para la transformación pacifica de la sociedad.</p>
         <br>
@@ -30,6 +31,7 @@
         <br>
         <h3>¿Qué es nuestra galería?</h3>
         <p>Es una exposición de los proyectos colaborativos que El Atlas ha contribuido a fomentar. Si quieres que hacer un aporte a nuestra galería, nos puedes contactar al correo electrónico <b>info@elatlas.org</b>, para informarte los detalles de esta iniciativa.</p>
+        <br>
     </section>
 
 @endsection

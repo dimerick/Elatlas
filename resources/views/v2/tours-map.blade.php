@@ -146,8 +146,8 @@
                 }
             });
             var map = L.map('v2-map', {
-                center: [4.96871620165794, -73.93611395955086],
-                zoom: 5,
+                center: [6.251098920489721, -75.56791305541992],
+                zoom: 12,
                 fullscreenControl: true,
                 fullscreenControlOptions: {
                     position: 'topleft'

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    var stateMenu = false;
     $('#menu-1').lazeemenu();
     $('#menu-2').lazeemenu();
     //Goto Top
@@ -42,32 +43,22 @@ $(document).ready(function() {
     $("#a-li-3").click(function () {
         $(location).attr('href','/v2/preguntas-frecuentes');
     });
+
+$("#options-profile").click(function () {
+    stateMenu = !stateMenu;
+    if(stateMenu){
+        $("#options-profile").css('background-color', '#374667');
+        $("#ul-options-profile").css('display', 'block');
+    }else{
+        $("#options-profile").css('background-color', '');
+        $("#ul-options-profile").css('display', 'none');
+    }
+
+});
     
-// function actionItem(item){
-//     $(".item").each(function (index) {
-//         if($(this).hasClass('a-one-item')){
-//             var id = "#"+$(this).attr('for');
-//             $(id).removeClass('active');
-//         }else{
-//             $(this).removeClass('active');
-//         }
-//     })
-//     if(item.hasClass('a-one-item')){
-//         var id = "#"+item.attr('for');
-//         $(id).addClass('active');
-//     }else{
-//         item.addClass('active');
-//     }
-//
-//     }
-//
-//     $(".item").click(function(event){
-//         var item = $(this);
-//         actionItem(item);
-//
-//     });
-    
-    
+    $("#logo").click(function () {
+        $(location).attr('href','/');
+    });
 
 
 });

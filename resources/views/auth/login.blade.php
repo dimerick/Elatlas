@@ -1,4 +1,4 @@
-@extends('v2/template-auth-2')
+@extends('v2/template-auth')
 
 @section('title')
 	Login

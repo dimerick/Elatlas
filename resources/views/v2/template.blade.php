@@ -42,6 +42,7 @@
     <link href="{{ asset('assets/v2/css/leaflet.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/v2/css/lightbox.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/v2/css/animate.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/v2/css/menu.css') }}" rel="stylesheet">
     @yield('css')
 
             <!--Font Awesone-->
@@ -103,48 +104,46 @@
     <div class="row">
         <div class="col-sm-12">
             <header>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <section id="cont-logo">
-                            <a href="/"> <img src="{{ asset('assets/v2/images/logo.svg') }}" class="img-responsive"></a>
-                        </section>
 
-                    </div>
-                    <div class="col-sm-4">
-                        <section id="icons-top">
-                            <section id="social" class="pull-right">
-                                <ul>
-                                    <li id="li-search"><a href="#div-search" title="Busqueda" rel="leanModal"><i class="fa fa-search fa-3x"></i></a></li>
-                                    <li><a href="https://www.facebook.com/Atlas-del-Afecto-681367321998487" target="_blank"><i class="fa fa-facebook-square fa-3x"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-youtube-square fa-3x"></i></a></li>
-                                </ul>
-                            </section>
-                        </section>
-
-                    </div>
-                    <div class="col-sm-4">
-                        <section id="options-user-top">
-                            <div id="cont-options-user">
-                                @include('v2/partials/options-user-top')
-                            </div>
-
-                        </section>
-
-
-                    </div>
-
-                </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <section id="collage">
-                            {{--<img src="{{ asset('assets/v2/images/collage.jpg') }}">--}}
-                        </section>
+                            <img src="{{ asset('assets/v2/images/logo.svg') }}" class="img-responsive" id="logo">
 
                     </div>
+
                 </div>
+
+                {{--<div class="row">--}}
+                    {{--<div class="col-sm-12">--}}
+                        {{--<section id="collage">--}}
+                            {{--<img src="{{ asset('assets/v2/images/collage.jpg') }}">--}}
+                        {{--</section>--}}
+
+                    {{--</div>--}}
+                {{--</div>--}}
             </header>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <section id="bar-top">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <ul id="icons-social" class="pull-right">
+                            <li id="li-search"><a href="#div-search" title="Busqueda" rel="leanModal"><i class="fa fa-search fa-2x"></i></a></li>
+                            <li><a href="https://www.facebook.com/Atlas-del-Afecto-681367321998487" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a></li>
+                            <li><a href="#"><i class="fa fa-youtube-square fa-2x"></i></a></li>
+                            @include('v2/partials/options-user-top')
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
     <div class="row">
         <section id="main-section">
             <!--Navigation-->

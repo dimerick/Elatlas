@@ -8,10 +8,21 @@
 }
 header{
     background-color: white;
+    background-image: url('../images/banner2.jpg');
+    background-repeat: repeat-x;
+    margin-top: -1px;
+    height: 200px;
 }
 .container-fluid{
 
     padding: 0px;
+}
+
+#logo{
+    display: block;
+    /*margin: auto;*/
+    height: 200px;
+    cursor: pointer;
 }
 #menu-1, #menu-2{
 margin: 0px;
@@ -133,8 +144,10 @@ body{
     display: none;
 }
 #cont-logo{
-    padding: 10px;
-    padding-left: 20%;
+    /*padding: 10px;*/
+    /*padding-left: 20%;*/
+    /*margin:0 auto;*/
+    margin-left: 25%;
 }
 .cont-checkbox-categorie{
     margin-right: 20px;
@@ -259,11 +272,39 @@ ul.lz-menu li .active>a{
 #social>ul>li>a>i{
     color: #000;
 }
-#icons-top{
-    margin-top: 40px;
+#bar-top{
+    background-color: #12517e;
+    /*height: 50px;*/
+    padding-top: 9px;
+}
+#icons-social{
+    list-style: none;
+    margin-right: 30px;
+}
+#icons-social>li{
+    display: inline-block;
+    color: #080808;
+    vertical-align: middle;
+}
+#icons-social>li>a{
+    color: white;
+}
+#options-profile{
+    margin-left: 20px;
+    /*margin-right: 50px;*/
+    padding-right: 5px;
+    border-radius: 3px;
+    min-width: 145px;
+    /*background-color: #4a69ab;*/
+}
+#options-profile:hover{
+    background-color: #2c6ba0;
+}
+#options-profile>a{
+    text-decoration: none;
 }
 #li-search{
-    margin-right: 50px!important;
+    margin-right: 20px!important;
 }
 #autor-activity{
     text-align: center!important;

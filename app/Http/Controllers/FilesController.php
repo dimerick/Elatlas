@@ -55,7 +55,7 @@ class FilesController extends Controller {
                 $image
                     ->resizeToWidth(1024)
                     ->save($rutaComp, null, 90)
-                    ->crop(50, 50)
+                    ->crop(28, 28)
                     ->save($rutaCompPeq, null, 100)
 
                 ;
