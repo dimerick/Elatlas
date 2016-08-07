@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    var height = $(window).height();
+    $("#v2-map").css('height', height/2);
 var id = $("#id-group").val();
 
     function eachActivity(feature, layer){

@@ -1,4 +1,7 @@
 $('document').ready(function(){
+var height = $(window).height();
+    $("#register-map").css('height', height/2);
+
     var lastCheck = null;
     function inicializarMap(latitud, longitud){
         if(latitud != null && longitud != null){
@@ -26,14 +29,29 @@ $('document').ready(function(){
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
 
         var punto = L.marker([latitud, longitud], {
-            icon: myIcon,
-            draggable: true
+            icon: myIcon
         }).addTo(map);
 
-        punto.on('dragend', function(e) {
+        map.on('contextmenu', function(e) {
+            console.log(e.latlng);
+            punto.setLatLng(e.latlng);
             var latLng = punto.getLatLng();
             var lat = latLng.lat;
             var long = latLng.lng;
+            console.log(lat);
+            console.log(long);
+            $('#latitud').val(lat);
+            $('#longitud').val(long);
+        });
+
+        map.on('dblclick', function(e) {
+            console.log(e.latlng);
+            punto.setLatLng(e.latlng);
+            var latLng = punto.getLatLng();
+            var lat = latLng.lat;
+            var long = latLng.lng;
+            console.log(lat);
+            console.log(long);
             $('#latitud').val(lat);
             $('#longitud').val(long);
         });

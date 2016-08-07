@@ -1,5 +1,10 @@
 $(document).ready(function(){
+    var windowAnt = null;
+    var height = $(window).height();
+    $("#v2-map").css('height', height/1.2);
     function eachGroups(feature, layer){
+        console.log("imprimiendo layer");
+        console.log(layer);
         var urlIcon = '/assets/v2/images/categories/icon-otra.svg';
         console.log("Datos feature");
         var lat = feature.geometry.coordinates[0];
@@ -9,9 +14,8 @@ $(document).ready(function(){
         
         
         console.log(feature.geometry.properties.nombre);
-        var content = '<div id="info-map" class="plegable animated bounceInDown"><a href="#" id="ocult-info-map" class="pull-right"> <i class="fa fa-close fa-2x"></i></a>' +
-                '<hr>'+'<a href="/files/fotos_perfil/'+feature.geometry.properties.foto+'" data-lightbox="'+feature.geometry.properties.nombre+'" data-title="'+feature.geometry.properties.nombre.toUpperCase()+'"><img src="/files/fotos_perfil/'+feature.geometry.properties.foto+'" width="80%"" class="img-rounded"></a>' +
-        '<a href="/autor/'+feature.geometry.properties.email+'"><h3>'+feature.geometry.properties.nombre.toUpperCase()+'</h3></a>' +
+        var title = '<h2><a href="/autor/'+feature.geometry.properties.email+'" target="_top" id="name-profile">'+feature.geometry.properties.nombre.toUpperCase()+'</a></h2><br>';
+        var content = '<div class="content-info-marker">' + title + '<img src="/files/fotos_perfil/'+feature.geometry.properties.foto+'" height="200px"" class="img-rounded image-profile"><br>' +
         '<div id="categories-group">'+
         '<ul>';
 
@@ -29,6 +33,7 @@ $(document).ready(function(){
             iconAnchor: [22, 10]
         });
         layer.setIcon(myIcon);
+        layer.defaultOptions.riseOnHover = true;
         content += '</ul>' +
         '</div>' +
             '<ul id="data-group">' +
@@ -36,26 +41,17 @@ $(document).ready(function(){
             '<li title="Ubicacion"> <i class="fa fa-globe"> </i><span id="city-group">'+' '+feature.geometry.properties.ciudad+'</span> </li>' +
             '<li title="Correo electronico"> <i class="fa fa-envelope-o"> </i><span id="email-group">'+' '+feature.geometry.properties.email+'</span> </li>' +
             '</ul>'+
-                '<hr>' +
-        '<div id="description-group">' +
+        '<hr><div id="description-group">' +
         '<p title="Descripcion grupo">'+feature.geometry.properties.descripcion+'</p>' +
-        '</div><hr>' +
-            '</div>';
+        '</div></div>';
 
 
         layer.on('click', function () {
-            $("#info-map").remove();
-            $("#v2-map").append(content);
-            $("#info-map").css('padding', '20px');
-            $("#info-map").addClass('desplegado');
-
-            // if(map.hasLayer(circle)){
-            //     map.removeLayer(circle);
-            // }
-            // circle = L.circle([long, lat], 700, {
-            //     color: '#03f',
-            //     weight : 3
-            // }).addTo(map);
+            if(windowAnt != null){
+                windowAnt.close();
+            }
+            var winOpts = L.control.window(map,{title:'',content:content,visible: true, position:'topRight', maxWidth:500, modal:false})
+            windowAnt = winOpts;
         })
 
 

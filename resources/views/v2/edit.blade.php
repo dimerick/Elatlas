@@ -5,14 +5,14 @@
 @endsection
 
 @section('css')
-
+    <link href="{{ asset('assets/v2/css/Control.FullScreen.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
 
                     @include('v2/partials/messages')
                     <div class="panel panel-default">
-                        <div class="panel-heading"><h4>Formulario de Edicion</h4>
+                        <div class="panel-heading"><h4>Formulario de Edición</h4>
                             Requerido*
                         </div>
 
@@ -30,12 +30,12 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Direccion*</label>
+                                <label>Dirección*</label>
                                 {!! Form::text('direccion', $user['direccion'], ['class'=> 'form-control', 'required' => 'required', 'id' => 'direccion']) !!}
                             </div>
 
                             <div class="form-group">
-                                <label>Telefono*</label>
+                                <label>Teléfono*</label>
                                 {!! Form::text('telefono', $user['telefono'], ['class'=> 'form-control', 'required' => 'required', 'id' => 'telefono']) !!}
                             </div>
 
@@ -50,7 +50,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Seleccione su ubicacion*</label>
+                                <label>Doble clic sobre el mapa para establecer tu ubicación geográfica*</label></br>
+                                <i>Si su ubicación está disponible será detectada automáticamente</i>
                                 <div id="register-map"></div>
                             </div>
                             <input type="hidden" id="latitud" name="latitud" value="{{$user['latitud']}}">
@@ -61,7 +62,7 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <label id="cate">Seleccione la categoria principal del grupo*</label>
+                                        <label id="cate">Seleccione la categoría principal del grupo*</label>
                                         <select class="form-control" name="cat_prin" id="cat-prin"required>
                                             @foreach($categorias as $categoria)
                                                 @if($categoria->id == $idCatPrin)
@@ -79,7 +80,7 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <label id="cate">Marque las categorias secundarias con las que se identifica el grupo</label>
+                                        <label id="cate">Marque las categorías secundarias con las que se identifica el grupo</label>
                                         <div id="cont-cat-sec">
                                             <ul>
                                         @foreach($items as $item)
@@ -116,7 +117,8 @@
                             {{--</div>--}}
 
                             <div>
-                    {!! Form::submit(trans('Actualizar'),['class' => 'btn btn-primary']) !!}
+                                <br>
+                    {!! Form::submit(trans('Actualizar'),['class' => 'btn btn-primary btn-block']) !!}
                     </div>
 
                     {!! Form::close() !!}
@@ -126,9 +128,12 @@
 
 @endsection
 @section('scripts')
+    <script src="{{ asset('assets/v2/js/Control.FullScreen.js') }}"></script>
     <script src="{{ asset('assets/v2/js/editUser.js') }}"></script>
     <script>
         $('document').ready(function(){
+            var height = $(window).height();
+            $("#register-map").css('height', height/1.2);
             function inicializarMap(latitud, longitud){
                 if(latitud != null && longitud != null){
                     $('#latitud').val(latitud);
@@ -145,20 +150,40 @@
 
                 var map = L.map('register-map', {
                     center: [latitud, longitud],
-                    zoom: 12
+                    zoom: 12,
+                    fullscreenControl: true,
+                    fullscreenControlOptions: {
+                        position: 'topleft'
+                    }
                 });
                 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
 
                 var punto = L.marker([latitud, longitud], {
                     icon: myIcon,
-                    draggable: true
+                    draggable: false
                 }).addTo(map);
 
-                punto.on('dragend', function(e) {
+                map.on('contextmenu', function(e) {
+                    console.log(e.latlng);
+                    punto.setLatLng(e.latlng);
                     var latLng = punto.getLatLng();
                     var lat = latLng.lat;
                     var long = latLng.lng;
+                    console.log(lat);
+                    console.log(long);
+                    $('#latitud').val(lat);
+                    $('#longitud').val(long);
+                });
+
+                map.on('dblclick', function(e) {
+                    console.log(e.latlng);
+                    punto.setLatLng(e.latlng);
+                    var latLng = punto.getLatLng();
+                    var lat = latLng.lat;
+                    var long = latLng.lng;
+                    console.log(lat);
+                    console.log(long);
                     $('#latitud').val(lat);
                     $('#longitud').val(long);
                 });

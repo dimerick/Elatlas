@@ -6,7 +6,7 @@
 
 @section('content')
 			<div class="panel panel-default">
-				<div class="panel-heading">Login</div>
+				<div class="panel-heading">Inicio de sesión</div>
 				<div class="panel-body">
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
@@ -48,7 +48,7 @@
 
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">Login</button>
+								<button type="submit" class="btn btn-primary">Iniciar sesión</button>
 
 								<a class="btn btn-link" href="{{ url('/password/email') }}">{{ trans('validation.attributes.forgot-password') }}</a>
 							</div>

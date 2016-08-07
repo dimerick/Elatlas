@@ -21,8 +21,8 @@
             <input type="hidden" name="id" value="{{$datos['id']}}">
             <div class="form-group">
             <div class="dz-message" id="dz-message">
-                <p>Haga click o arrastre la foto a esta area</p>
-                <p><i>Maximo 2MB por archivo</i></p>
+                <p>Haga clic o arrastre la foto a esta área</p>
+                <p><i>Máximo 2MB por archivo</i></p>
 
             </div>
             </div>

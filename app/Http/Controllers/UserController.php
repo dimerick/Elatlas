@@ -327,7 +327,7 @@ if($actAnt == null){
 		$actividad->longitud = $request['longitud'];
 		$actividad->save();
 
-		return redirect("/user/my-publications")->with('message', "Se actualizo el reporte exitosamente");
+		return redirect("/user/my-publications")->with('success', "Se actualizo el reporte exitosamente");
 	}
 
 	public function editPhotoProfile(){

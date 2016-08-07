@@ -108,18 +108,18 @@ return [
     'attributes' => [
     'num_integrantes' => 'No. Integrantes',
      'name' => 'Nombre del grupo',
-     'email' => 'Correo Electronico del grupo o representante',
+     'email' => 'Correo electrónico del grupo o representante',
      'city' => 'Ciudad',
      'lat' => 'Latitud',
      'long' => 'Longitud',
-     'num_int' => 'Numero de personas que activamente participan en el grupo',
-     'descript' => 'Descripcion',
+     'num_int' => 'Número de personas que activamente participan en el grupo',
+     'descript' => 'Descripción',
      'file' => 'Foto o logo',
      'password' => 'Contraseña',
      'password_confirmation' => 'Confirmar contraseña',
      'submit' => 'Registrarte',
-     'remember' => 'No cerrar sesion',
-     'forgot-password' => 'Olvido su contraseña?'
+     'remember' => 'No cerrar sesión',
+     'forgot-password' => '¿Olvidó su contraseña?'
         //
     ],
 

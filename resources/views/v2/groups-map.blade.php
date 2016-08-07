@@ -7,6 +7,7 @@
 @section('css')
     <link href="{{ asset('assets/v2/css/map.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/v2/css/Control.FullScreen.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/v2/css/L.Control.Window.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -18,6 +19,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('assets/v2/js/mapGroups.js') }}"></script>
     <script src="{{ asset('assets/v2/js/Control.FullScreen.js') }}"></script>
+    <script src="{{ asset('assets/v2/js/L.Control.Window.js') }}"></script>
+    <script src="{{ asset('assets/v2/js/mapGroups.js') }}"></script>
 @endsection

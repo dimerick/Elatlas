@@ -12,7 +12,7 @@
 @section('content')
 
     <section id="about">
-        <h3>Quienes somos</h3>
+        <h3>¿Quiénes somos?</h3>
         <p>Somos una plataforma que conecta los procesos sociales alrededor del mundo, a través de la geografía, promoviendo la participación y la generación de conocimiento en diversos temas.</p>
         <br>
         <h3>¿Como?</h3>

@@ -23,7 +23,7 @@
                             @include('v2/partials/fields')
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" id="ch-conditions"> Acepto los <a href="/terms-conditions" target="_blank">Terminos y Condiciones del servicio</a>
+                                    <input type="checkbox" id="ch-conditions"> Acepto los <a href="/terms-conditions" target="_blank">Términos y Condiciones del servicio</a>
                                 </label>
                             </div>
                             <br>

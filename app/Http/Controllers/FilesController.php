@@ -25,8 +25,8 @@ class FilesController extends Controller {
         $path = public_path().'/files/fotos_perfil/'; //comentar en servidor
         //$path = 'files/fotos_perfil/'; //descomentar en servidor
 
-        $search = array("á", "é", "í", "ó", "ú", "Á", "É", "Í", "Ó", "Ú", " ");
-        $replace = array("a", "e", "i", "o", "u", "a", "e", "i", "o", "u", "-");
+        $search = array("á", "é", "í", "ó", "ú", "Á", "É", "Í", "Ó", "Ú", " ", '"');
+        $replace = array("a", "e", "i", "o", "u", "a", "e", "i", "o", "u", "-", "");
         $search1 = array(":", " ");
         $replace1 = array("-", "_");
         $file = \Request::file('file');
@@ -81,8 +81,8 @@ class FilesController extends Controller {
         //$path = 'files/actividades/';//Descomentar en servidor
         $files = \Request::file('file');
 
-        $search = array("á", "é", "í", "ó", "ú", "Á", "É", "Í", "Ó", "Ú", " ");
-        $replace = array("a", "e", "i", "o", "u", "a", "e", "i", "o", "u", "-");
+        $search = array("á", "é", "í", "ó", "ú", "Á", "É", "Í", "Ó", "Ú", " ", '"', "ñ", "Ñ");
+        $replace = array("a", "e", "i", "o", "u", "a", "e", "i", "o", "u", "-", "", "n", "n");
 
         $nomMod = str_replace($search, $replace, $titulo);
         $num = 1;

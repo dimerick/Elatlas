@@ -17,11 +17,11 @@
             {!! Form::open(['url'=> '/user/upload-activity', 'method' => 'POST']) !!}
 
             <div class="form-group">
-                <label for="titulo">Titulo Actividad *</label>
+                <label for="titulo">Titulo Actividad*</label>
                 <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Indique un titulo para la actividad" required>
             </div>
             <div class="form-group">
-                <label for="fecha">Fecha *</label>
+                <label for="fecha">Fecha*</label>
                 <input type="date" class="form-control" id="fecha" name="fecha" placeholder="AAAA-MM-DD" required>
             </div>
 
@@ -42,7 +42,7 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm-12">
-                        <label>Categoria*</label>
+                        <label>Categoría*</label>
                         <select class="form-control" name="categoria" id="categoria" required>
                             <option value=""></option>
                             @foreach($categorias as $categoria)
@@ -54,11 +54,11 @@
             </div>
 
             <div class="form-group">
-                <label for="descripcion">Descripcion *</label>
+                <label for="descripcion">Descripción*</label>
                 <textarea required cols="75" rows="7" id="descripcion" name="descripcion" class="form-control"></textarea>
             </div>
             <div class="form-group">
-                <label>Arrastre el icono hasta su ubicacion *</label>
+                <label>Doble clic sobre el mapa para establecer la ubicación geográfica*</label>
                 </br>
                 <i>Si su ubicación esta disponible sera detectada automaticamente</i>
                 <input type="hidden" id="latitud" name="latitud" value="" required>

@@ -8,7 +8,7 @@
         <li><a href="/autor/{{$user['email']}}">Ver mi perfil</a></li>
         <li><a href="/user/edit-photo-profile">Cambiar foto perfil</a></li>
         <li><a href="{{route('grupos.edit')}}">Actualizar Datos</a></li>
-        <li><a href="/auth/logout">Cerrar Sesion</a></li>
+        <li><a href="/auth/logout">Cerrar Sesión</a></li>
     </ul>
     </li>
 @endif

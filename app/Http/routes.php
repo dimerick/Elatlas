@@ -48,6 +48,7 @@ Route::get('v2/reescalar-acti', 'v2Controller@reescalarActi');//v2
 Route::get('v2/groups-register', 'v2Controller@groupsRegister');//v2 ajax
 Route::get('v2/activities-register', 'v2Controller@activitiesRegister');//v2 ajax
 Route::get('v2/activities-group-register/{id}', 'v2Controller@activitiesGroupRegister');//v2 ajax
+Route::get('v2/tours-group-register/{id}', 'v2Controller@toursGroupRegister');//v2
 Route::get('v2/tours-register', 'v2Controller@toursRegister');//v2 ajax
 //Route::get('v2', 'v2Controller@template');
 

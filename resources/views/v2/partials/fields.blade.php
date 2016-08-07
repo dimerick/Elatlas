@@ -9,12 +9,12 @@
 </div>
 
 <div class="form-group">
-    <label>Direccion*</label>
+    <label>Dirección*</label>
     {!! Form::text('direccion', null, ['class'=> 'form-control', 'required' => 'required', 'id' => 'direccion']) !!}
 </div>
 
 <div class="form-group">
-    <label>Telefono*</label>
+    <label>Teléfono*</label>
     {!! Form::text('telefono', null, ['class'=> 'form-control', 'required' => 'required', 'id' => 'telefono']) !!}
 </div>
 
@@ -29,8 +29,8 @@
 </div>
 
 <div class="form-group">
-    <label>Arrastra el icono para establecer tu ubicación geografica* </label></br>
-    <i>Si su ubicación esta disponible sera detectada automaticamente</i>
+    <label>Doble clic sobre el mapa para establecer tu ubicación geográfica* </label></br>
+    <i>Si su ubicación está disponible será detectada automáticamente</i>
     <div id="register-map"></div>
 </div>
 <input type="hidden" id="latitud" name="latitud" value="" required="required">
@@ -40,7 +40,7 @@
 <div class="form-group">
     <div class="row">
         <div class="col-sm-12">
-            <label id="cate">Seleccione la categoria principal del grupo*</label>
+            <label id="cate">Seleccione la categoría principal del grupo*</label>
             <select class="form-control" name="cat_prin" id="cat-prin"required>
                 <option value=""></option>
                 @foreach($categorias as $categoria)
@@ -54,7 +54,7 @@
 <div class="form-group" id="form-cat-sec">
 <div class="row">
 <div class="col-sm-12">
-    <label id="cate">Marque las categorias secundarias con las que se identifica el grupo</label>
+    <label id="cate">Marque las categorías secundarias con las que se identifica el grupo</label>
     <div id="cont-cat-sec">
         <ul>
     @foreach($categorias as $categoria)

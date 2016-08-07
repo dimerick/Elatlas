@@ -1,3 +1,7 @@
+* {
+    margin:  0;
+    padding: 0;
+}
 #collage{
     margin-bottom: 0%;
     width: 100%;
@@ -104,7 +108,7 @@ body{
     overflow-x: hidden;
 }
 #div-search{
-    width: 50%;
+    width: 90%;
     background-color: #faf5ff;
     padding: 20px;
     padding-bottom: 20px;
@@ -151,7 +155,7 @@ body{
 }
 .cont-checkbox-categorie{
     margin-right: 20px;
-    float: left;
+    /*float: left;*/
     display: inline-block;
 
 }
@@ -164,7 +168,7 @@ ul.lz-menu li .active>a{
     right: 0px;
     z-index: 99999;
     background: rgba(255,255,255,0.9);
-    width: 40%;
+    width: 50%;
     height: 100%;
     overflow-y: scroll;
     font-size: 1.1em;
@@ -201,6 +205,7 @@ ul.lz-menu li .active>a{
 }
 #main-content{
     background-color: white;
+    margin-bottom: 100px;
 }
 #about>h3{
     margin: 0;
@@ -244,12 +249,13 @@ ul.lz-menu li .active>a{
 }
 #description-group{
     text-align: left;
+    font-size: 1em;
 }
 #description-group>p{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding-right: 20px;
-    padding-left: 20px;
+    /*margin-top: 10px;*/
+    /*margin-bottom: 10px;*/
+    /*padding-right: 20px;*/
+    /*padding-left: 20px;*/
 }
 #info-map>a>h3{
     text-align: center;
@@ -308,8 +314,16 @@ ul.lz-menu li .active>a{
 }
 #autor-activity{
     text-align: center!important;
+    padding: 10px;
+    display: block;
+    margin: 0 auto;
 }
 .main-image-activity{
+    display: block;
+    margin: 0 auto;
+}
+.image-profile{
+    display: block;
     margin: 0 auto;
 }
 .image-activity{
@@ -322,8 +336,6 @@ ul.lz-menu li .active>a{
 }
 #description-activity{
     font-size: 1em;
-    margin-left: 2px;
-    margin-right: 2px;
 }
 .img-group{
     width: 200px;
@@ -344,8 +356,10 @@ ul.lz-menu li .active>a{
     margin:0 auto;
     margin-bottom: 20px;
 }
-#register-map{
-    height: 500px;
+#register-map, #v2-map, #activity-map{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 40px;
 }
 .alert{
     text-align: center;
@@ -399,4 +413,17 @@ section#show-groups{
 }
 #panel-coordinates{
     padding: 20px;
+}
+#name-profile{
+    display: block;
+    font-size: 0.6em;
+    text-align: center;
+}
+.leaflet-control-window .content{
+    overflow-x: hidden;
+}
+.content-info-marker{
+    min-width: 500px;
+    padding: 20px;
+    padding-right: 40px;
 }

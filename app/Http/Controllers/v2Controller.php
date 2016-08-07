@@ -180,6 +180,64 @@ $id = $act->id;
         return json_encode($allFeatures, JSON_PRETTY_PRINT);
     }
 
+    public function toursGroupRegister($id){
+        $actividades = \DB::table('actividad')
+            ->join('cuenta', 'actividad.grupo', '=', 'cuenta.email')
+            ->join('categoria', 'actividad.categoria', '=', 'categoria.id')
+            ->select('cuenta.nombre', 'cuenta.email', 'actividad.id', 'actividad.titulo', 'actividad.fecha', 'actividad.created_at', 'actividad.descripcion', 'actividad.latitud', 'actividad.longitud', 'categoria.nombre as nomCat', 'categoria.icon')
+            ->where('cuenta.email', $id)
+            ->where('actividad.confirmada', 1)
+            ->where('actividad.tipo', 2)
+            ->orderBy('actividad.created_at', 'DESC')
+            ->get();
+
+        $features = array();
+
+        foreach($actividades as $act){
+            $id = $act->id;
+            $descripcion = str_replace("\n", "<br>", $act->descripcion);
+            $fotos = \DB::table('foto')
+                ->select('url')
+                ->where('actividad', $id)
+                ->get();
+            $puntos = \DB::table('coordenada')
+                ->select('latitud', 'longitud')
+                ->where('actividad', $id)
+                ->orderBy('creada', 'DESC')
+                ->get();
+
+            $coordinates = array();
+
+            foreach ($puntos as $punto){
+                $coordinate = array($punto->longitud, $punto->latitud);
+                $coordinates[] = $coordinate;
+            }
+
+
+            $features[] = array(
+                'type' => 'Feature',
+                'geometry' => array(
+                    'type' => 'LineString',
+                    'coordinates' => $coordinates,
+                    'properties' => array(
+                        'autor' => $act->nombre,
+                        'email' => $act->email,
+                        'id' => $act->id,
+                        'titulo' => $act->titulo,
+                        'fecha' => $act->fecha,
+                        'nom-cat' => $act->nomCat,
+                        'icon' => $act->icon,
+                        'creada' => $act->created_at,
+                        'descripcion' => $descripcion,
+                        'fotos' => $fotos,
+                    ),
+                ),
+            );
+        }
+        $allFeatures = array('type' => 'FeatureCollection', 'features' => $features);
+        return json_encode($allFeatures, JSON_PRETTY_PRINT);
+    }
+
     public function activitiesGroupRegister($id){
         $actividades = \DB::table('actividad')
             ->join('cuenta', 'actividad.grupo', '=', 'cuenta.email')
