@@ -150,6 +150,8 @@
             var map = L.map('v2-map', {
                 center: [6.251098920489721, -75.56791305541992],
                 zoom: 12,
+                maxZoom: 16,
+                minZoom: 3,
                 fullscreenControl: true,
                 fullscreenControlOptions: {
                     position: 'topleft'

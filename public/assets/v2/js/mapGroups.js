@@ -3,6 +3,7 @@ $(document).ready(function(){
     var height = $(window).height();
     $("#v2-map").css('height', height/1.2);
     function eachGroups(feature, layer){
+
         console.log("imprimiendo layer");
         console.log(layer);
         var urlIcon = '/assets/v2/images/categories/icon-otra.svg';
@@ -11,8 +12,6 @@ $(document).ready(function(){
         var long = feature.geometry.coordinates[1];
         console.log(lat);
         console.log(long);
-        
-        
         console.log(feature.geometry.properties.nombre);
         var title = '<h2><a href="/autor/'+feature.geometry.properties.email+'" target="_top" id="name-profile">'+feature.geometry.properties.nombre.toUpperCase()+'</a></h2><br>';
         var content = '<div class="content-info-marker">' + title + '<img src="/files/fotos_perfil/'+feature.geometry.properties.foto+'" height="200px"" class="img-rounded image-profile"><br>' +
@@ -33,7 +32,7 @@ $(document).ready(function(){
             iconAnchor: [22, 10]
         });
         layer.setIcon(myIcon);
-        layer.defaultOptions.riseOnHover = true;
+        // layer.defaultOptions.riseOnHover = true;
         content += '</ul>' +
         '</div>' +
             '<ul id="data-group">' +
@@ -54,7 +53,6 @@ $(document).ready(function(){
             windowAnt = winOpts;
         })
 
-
     };
     
 
@@ -70,8 +68,10 @@ $(document).ready(function(){
             console.log(grupos);
             var gruposMap = L.geoJson(grupos,{
                 onEachFeature: eachGroups
-            }).addTo(map);
-
+            });
+            var markers = L.markerClusterGroup();
+            markers.addLayer(gruposMap);
+            map.addLayer(markers);
         },
         error: function(jqXHR, text){
             console.log(jqXHR);
@@ -81,6 +81,8 @@ $(document).ready(function(){
     var map = L.map('v2-map', {
         center: [4.96871620165794, -73.93611395955086],
         zoom: 5,
+        maxZoom: 16,
+        minZoom: 3,
         fullscreenControl: true,
         fullscreenControlOptions: {
             position: 'topleft'

@@ -8,6 +8,9 @@
     <link href="{{ asset('assets/v2/css/map.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/v2/css/Control.FullScreen.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/v2/css/L.Control.Window.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/v2/css/cluster/MarkerCluster.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/v2/css/cluster/MarkerCluster.Default.css') }}" rel="stylesheet">
+
 @endsection
 
 @section('content')
@@ -21,5 +24,7 @@
 @section('scripts')
     <script src="{{ asset('assets/v2/js/Control.FullScreen.js') }}"></script>
     <script src="{{ asset('assets/v2/js/L.Control.Window.js') }}"></script>
+    <script src="{{ asset('assets/v2/js/cluster/leaflet.markercluster-src.js') }}"></script>
     <script src="{{ asset('assets/v2/js/mapGroups.js') }}"></script>
+
 @endsection

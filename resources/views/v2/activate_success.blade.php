@@ -11,8 +11,8 @@
                         <p>La cuenta ha sido activada exitosamente.</p>
                     </div>
                     <div class="alert">
-                        <p>ya puedes disfrutar de todos los beneficios de pertenecer a esta comunidad mundial.</p>
+                        <p>Ya puedes disfrutar de todos los beneficios de pertenecer a esta comunidad mundial.</p>
                         <br>
-                        <p><a href="/auth/login" class="btn btn-primary" role="button">Iniciar Sesion</a></p>
+                        <p><a href="/auth/login" class="btn btn-primary" role="button">Iniciar Sesión</a></p>
                     </div>
 @endsection

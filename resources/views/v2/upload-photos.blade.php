@@ -29,7 +29,7 @@
             <div class="form-group"><div class="dropzone-previews"></div></div>
 
 
-            <div class="form-group"><button type="submit" class="btn btn-primary" id="submit">Enviar</button></div>
+            <div class="form-group"><button type="submit" class="btn btn-primary btn-block" id="submit">Enviar</button></div>
 
             {!! Form::close() !!}
 

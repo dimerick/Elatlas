@@ -7,6 +7,8 @@
 @section('css')
     <link href="{{ asset('assets/v2/css/Control.FullScreen.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/v2/css/L.Control.Window.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/v2/css/cluster/MarkerCluster.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/v2/css/cluster/MarkerCluster.Default.css') }}" rel="stylesheet">
 @endsection
 
 @section('pagina')
@@ -131,6 +133,7 @@
 @section('scripts')
     <script src="{{ asset('assets/v2/js/Control.FullScreen.js') }}"></script>
     <script src="{{ asset('assets/v2/js/L.Control.Window.js') }}"></script>
+    <script src="{{ asset('assets/v2/js/cluster/leaflet.markercluster-src.js') }}"></script>
     <script>
         $('document').ready(function(){
             var windowAnt = null;
@@ -149,6 +152,8 @@
             var map = L.map('autor-map', {
                 center: [latitud, longitud],
                 zoom: 12,
+                maxZoom: 16,
+                minZoom: 3,
                 fullscreenControl: true,
                      fullscreenControlOptions: {
                          position: 'topleft'
@@ -161,6 +166,7 @@
                 icon: myIcon,
                 title: 'Ubicacion'
             }).addTo(map);
+            punto1.bindPopup('Ubicación').openPopup();
 
 
             //añado los recorridos registrados por le grupo
@@ -374,8 +380,11 @@
                     console.log(activities);
                     var activitiesMap = L.geoJson(activities,{
                         onEachFeature: eachActivity
-                    }).addTo(map);
-
+                    });
+                    activitiesMap.addLayer(punto1);
+                    var markers = L.markerClusterGroup();
+                    markers.addLayer(activitiesMap);
+                    map.addLayer(markers);
                 },
                 error: function(jqXHR, text){
                     console.log(jqXHR);

@@ -110,7 +110,10 @@ $(document).ready(function(){
 
             var activitiesMap = L.geoJson(activities,{
                 onEachFeature: eachActivity
-            }).addTo(map);
+            });
+            var markers = L.markerClusterGroup();
+            markers.addLayer(activitiesMap);
+            map.addLayer(markers);
 
         },
         error: function(jqXHR, text){
@@ -121,6 +124,8 @@ $(document).ready(function(){
     var map = L.map('v2-map', {
         center: [4.96871620165794, -73.93611395955086],
         zoom: 5,
+        maxZoom: 16,
+        minZoom: 3,
         fullscreenControl: true,
         fullscreenControlOptions: {
             position: 'topleft'
